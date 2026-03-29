@@ -6,7 +6,7 @@
 
 import store from '../store.js';
 import { showToast } from '../components/toast.js';
-import { sendOtp, verifyOtp, testLogin } from '../api/authApi.js'; // implements: AC20
+import { sendOtp, verifyOtp, testLogin, registerWithPassword, loginWithPassword } from '../api/authApi.js'; // implements: AC20
 
 const IS_DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
@@ -34,6 +34,7 @@ const page = {
     _bindGuest();
     _bindTabs();        // implements: AC1, AC2
     _bindOtp();         // implements: AC3–AC16
+    _bindPasswordForm();
     _bindDevTestLogin();
   },
 
@@ -301,28 +302,83 @@ function _bindDevTestLogin() {
 
 // implements: AC1, AC2
 function _bindTabs() {
-  const tabGoogle = document.getElementById('tabGoogle');
-  const tabPhone  = document.getElementById('tabPhone');
-  const panelGoogle = document.getElementById('panelGoogle');
-  const panelPhone  = document.getElementById('panelPhone');
-  if (!tabGoogle || !tabPhone) return;
+  const tabs   = ['tabGoogle', 'tabPhone', 'tabEmail'];
+  const panels = ['panelGoogle', 'panelPhone', 'panelEmail'];
 
-  tabGoogle.addEventListener('click', () => {
-    tabGoogle.classList.add('active');
-    tabPhone.classList.remove('active');
-    tabGoogle.setAttribute('aria-selected', 'true');
-    tabPhone.setAttribute('aria-selected', 'false');
-    if (panelGoogle) panelGoogle.classList.add('active');
-    if (panelPhone)  panelPhone.classList.remove('active');
+  tabs.forEach((tabId, i) => {
+    const tab = document.getElementById(tabId);
+    if (!tab) return;
+    tab.addEventListener('click', () => {
+      tabs.forEach((t, j) => {
+        const el = document.getElementById(t);
+        const p  = document.getElementById(panels[j]);
+        const active = j === i;
+        el?.classList.toggle('active', active);
+        el?.setAttribute('aria-selected', String(active));
+        p?.classList.toggle('active', active);
+      });
+    });
+  });
+}
+
+function _bindPasswordForm() {
+  // Toggle between Sign In and Register views
+  document.getElementById('pwSwitchToRegister')?.addEventListener('click', () => {
+    document.getElementById('pwSignInView').style.display  = 'none';
+    document.getElementById('pwRegisterView').style.display = '';
+  });
+  document.getElementById('pwSwitchToSignIn')?.addEventListener('click', () => {
+    document.getElementById('pwRegisterView').style.display = 'none';
+    document.getElementById('pwSignInView').style.display   = '';
   });
 
-  tabPhone.addEventListener('click', () => {
-    tabPhone.classList.add('active');
-    tabGoogle.classList.remove('active');
-    tabPhone.setAttribute('aria-selected', 'true');
-    tabGoogle.setAttribute('aria-selected', 'false');
-    if (panelPhone)  panelPhone.classList.add('active');
-    if (panelGoogle) panelGoogle.classList.remove('active');
+  // Sign In submit
+  document.getElementById('pwSignInBtn')?.addEventListener('click', async () => {
+    const email    = document.getElementById('pwEmail')?.value.trim();
+    const password = document.getElementById('pwPassword')?.value;
+    const errEl    = document.getElementById('pwSignInError');
+    const btn      = document.getElementById('pwSignInBtn');
+    if (errEl) errEl.style.display = 'none';
+    if (!email || !password) {
+      if (errEl) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = ''; }
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    try {
+      const data = await loginWithPassword(email, password);
+      store.setUser(data.user, data.accessToken);
+      window.location.hash = '/';
+    } catch (err) {
+      if (errEl) { errEl.textContent = err.message || 'Sign in failed.'; errEl.style.display = ''; }
+      btn.disabled = false; btn.textContent = 'Sign In';
+    }
+  });
+
+  // Register submit
+  document.getElementById('pwRegisterBtn')?.addEventListener('click', async () => {
+    const name     = document.getElementById('pwRegName')?.value.trim();
+    const email    = document.getElementById('pwRegEmail')?.value.trim();
+    const password = document.getElementById('pwRegPassword')?.value;
+    const errEl    = document.getElementById('pwRegisterError');
+    const btn      = document.getElementById('pwRegisterBtn');
+    if (errEl) errEl.style.display = 'none';
+    if (!name || !email || !password) {
+      if (errEl) { errEl.textContent = 'All fields are required.'; errEl.style.display = ''; }
+      return;
+    }
+    if (password.length < 8) {
+      if (errEl) { errEl.textContent = 'Password must be at least 8 characters.'; errEl.style.display = ''; }
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Creating account…';
+    try {
+      const data = await registerWithPassword(name, email, password);
+      store.setUser(data.user, data.accessToken);
+      window.location.hash = '/';
+    } catch (err) {
+      if (errEl) { errEl.textContent = err.message || 'Registration failed.'; errEl.style.display = ''; }
+      btn.disabled = false; btn.textContent = 'Create Account';
+    }
   });
 }
 
@@ -384,8 +440,9 @@ const LOGIN_TEMPLATE = `
 
       <!-- Tab bar — implements: AC1, AC2 -->
       <div class="tab-bar" role="tablist">
-        <button class="tab-btn active" id="tabGoogle" role="tab" aria-selected="true" aria-controls="panelGoogle">Continue with Google</button>
-        <button class="tab-btn" id="tabPhone" role="tab" aria-selected="false" aria-controls="panelPhone">Phone Number</button>
+        <button class="tab-btn active" id="tabGoogle" role="tab" aria-selected="true"  aria-controls="panelGoogle">Google</button>
+        <button class="tab-btn"        id="tabPhone"  role="tab" aria-selected="false" aria-controls="panelPhone">Phone OTP</button>
+        <button class="tab-btn"        id="tabEmail"  role="tab" aria-selected="false" aria-controls="panelEmail">Email</button>
       </div>
 
       <!-- Panel: Google — implements: AC19 -->
@@ -436,6 +493,51 @@ const LOGIN_TEMPLATE = `
         </div>
 
       </div><!-- /panelPhone -->
+
+      <!-- Panel: Email + Password -->
+      <div class="tab-panel" id="panelEmail" role="tabpanel" aria-labelledby="tabEmail">
+
+        <!-- Sign In view (default) -->
+        <div id="pwSignInView">
+          <div class="form-group">
+            <label class="form-label" for="pwEmail">Email</label>
+            <input class="form-input" id="pwEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pwPassword">Password</label>
+            <input class="form-input" id="pwPassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <p class="form-error" id="pwSignInError" style="display:none;margin-bottom:var(--sp-3)"></p>
+          <button class="btn btn-primary" id="pwSignInBtn" style="width:100%">Sign In</button>
+          <p style="text-align:center;margin-top:var(--sp-4);font-size:var(--ts-sm);color:var(--clr-text-m)">
+            Don't have an account?
+            <button id="pwSwitchToRegister" class="btn-ghost" style="font-size:inherit;color:var(--clr-primary)">Create one</button>
+          </p>
+        </div>
+
+        <!-- Register view (hidden by default) -->
+        <div id="pwRegisterView" style="display:none">
+          <div class="form-group">
+            <label class="form-label" for="pwRegName">Full Name</label>
+            <input class="form-input" id="pwRegName" type="text" placeholder="Your name" autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pwRegEmail">Email</label>
+            <input class="form-input" id="pwRegEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pwRegPassword">Password <span style="color:var(--clr-text-m);font-weight:400">(min 8 chars)</span></label>
+            <input class="form-input" id="pwRegPassword" type="password" placeholder="••••••••" autocomplete="new-password" />
+          </div>
+          <p class="form-error" id="pwRegisterError" style="display:none;margin-bottom:var(--sp-3)"></p>
+          <button class="btn btn-primary" id="pwRegisterBtn" style="width:100%">Create Account</button>
+          <p style="text-align:center;margin-top:var(--sp-4);font-size:var(--ts-sm);color:var(--clr-text-m)">
+            Already have an account?
+            <button id="pwSwitchToSignIn" class="btn-ghost" style="font-size:inherit;color:var(--clr-primary)">Sign in</button>
+          </p>
+        </div>
+
+      </div><!-- /panelEmail -->
 
       <!-- Divider — implements: AC1 (Guest always visible) -->
       <div style="display:flex;align-items:center;gap:var(--sp-3);margin:var(--sp-5) 0;color:var(--clr-text-m);font-size:var(--ts-xs)">

@@ -33,6 +33,10 @@ public class ApiException extends RuntimeException {
         return new ApiException(404, "NOT_FOUND", message);
     }
 
+    public static ApiException conflict(String code, String message) {
+        return new ApiException(409, code, message);
+    }
+
     public static ApiException internal(String message) {
         return new ApiException(500, "INTERNAL_ERROR", message);
     }

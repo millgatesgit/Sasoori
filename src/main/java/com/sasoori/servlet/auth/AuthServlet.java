@@ -7,6 +7,8 @@ import com.sasoori.dto.AuthResponse;
 import com.sasoori.dto.GoogleAuthRequest;
 import com.sasoori.dto.OtpSendRequest;
 import com.sasoori.dto.OtpVerifyRequest;
+import com.sasoori.dto.PasswordLoginRequest;
+import com.sasoori.dto.PasswordRegisterRequest;
 import com.sasoori.dto.UserResponse;
 import com.sasoori.exception.ApiException;
 import com.sasoori.model.User;
@@ -14,6 +16,7 @@ import com.sasoori.servlet.BaseServlet;
 import com.sasoori.service.GoogleOAuthService;
 import com.sasoori.service.OtpService;
 import com.sasoori.service.TokenService;
+import com.sasoori.util.PasswordUtil;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -69,6 +72,8 @@ public class AuthServlet extends BaseServlet {
                 case "/logout"      -> handleLogout(req, resp);
                 case "/otp/send"    -> handleOtpSend(req, resp);
                 case "/otp/verify"  -> handleOtpVerify(req, resp);
+                case "/register"    -> handlePasswordRegister(req, resp);
+                case "/login"       -> handlePasswordLogin(req, resp);
                 case "/test-login"  -> handleTestLogin(req, resp);
                 default             -> throw ApiException.notFound("Unknown auth endpoint: " + path);
             }
@@ -193,6 +198,80 @@ public class AuthServlet extends BaseServlet {
 
         setRefreshCookie(resp, refreshToken);
         log.info("Dev test login: userId={}", user.getId());
+        sendSuccess(resp, 200, new AuthResponse(accessToken, new UserResponse(user)));
+    }
+
+    // ── Password Auth Handlers ────────────────────────────────────────────
+
+    /**
+     * POST /api/v1/auth/register
+     * Body: { name, email, password }
+     * Creates a new email+password account and returns JWT + refresh cookie.
+     */
+    private void handlePasswordRegister(HttpServletRequest req, HttpServletResponse resp)
+            throws Exception {
+        PasswordRegisterRequest body = parseBody(req, PasswordRegisterRequest.class);
+
+        if (body.email == null || body.email.isBlank())
+            throw ApiException.badRequest("MISSING_EMAIL", "email is required");
+        if (body.password == null || body.password.length() < 8)
+            throw ApiException.badRequest("WEAK_PASSWORD", "Password must be at least 8 characters");
+        if (body.name == null || body.name.isBlank())
+            throw ApiException.badRequest("MISSING_NAME", "name is required");
+
+        String email = body.email.toLowerCase().trim();
+        if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"))
+            throw ApiException.badRequest("INVALID_EMAIL", "Invalid email address");
+
+        if (userDao.findByEmail(email).isPresent())
+            throw ApiException.conflict("EMAIL_TAKEN", "An account with this email already exists");
+
+        String passwordHash = PasswordUtil.hash(body.password);
+        User user = userDao.createPasswordUser(email, body.name, passwordHash);
+
+        String accessToken  = tokenService.issueAccessToken(user);
+        String refreshToken = tokenService.issueRefreshToken(user,
+                req.getHeader("User-Agent"), getClientIp(req));
+
+        setRefreshCookie(resp, refreshToken);
+        log.info("Password register success userId={}", user.getId());
+        sendSuccess(resp, 201, new AuthResponse(accessToken, new UserResponse(user)));
+    }
+
+    /**
+     * POST /api/v1/auth/login
+     * Body: { email, password }
+     * Validates credentials and returns JWT + refresh cookie.
+     */
+    private void handlePasswordLogin(HttpServletRequest req, HttpServletResponse resp)
+            throws Exception {
+        PasswordLoginRequest body = parseBody(req, PasswordLoginRequest.class);
+
+        if (body.email == null || body.email.isBlank())
+            throw ApiException.badRequest("MISSING_EMAIL", "email is required");
+        if (body.password == null || body.password.isBlank())
+            throw ApiException.badRequest("MISSING_PASSWORD", "password is required");
+
+        String email = body.email.toLowerCase().trim();
+        // Use a generic error for both "not found" and "wrong password" to prevent enumeration
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> ApiException.unauthorized("Invalid email or password"));
+
+        if (user.getPasswordHash() == null)
+            throw ApiException.badRequest("NO_PASSWORD", "This account uses Google or phone login");
+
+        if (!PasswordUtil.verify(body.password, user.getPasswordHash()))
+            throw ApiException.unauthorized("Invalid email or password");
+
+        if (!user.isActive())
+            throw ApiException.forbidden("Your account has been suspended");
+
+        String accessToken  = tokenService.issueAccessToken(user);
+        String refreshToken = tokenService.issueRefreshToken(user,
+                req.getHeader("User-Agent"), getClientIp(req));
+
+        setRefreshCookie(resp, refreshToken);
+        log.info("Password login success userId={}", user.getId());
         sendSuccess(resp, 200, new AuthResponse(accessToken, new UserResponse(user)));
     }
 

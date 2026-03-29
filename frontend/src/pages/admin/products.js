@@ -69,7 +69,8 @@ async function _loadProducts() {
 async function _loadCategories() {
   try {
     const data = await getCategories();
-    _state.categories = data.categories || data.data?.categories || data.data || [];
+    // apiClient already unwraps data.data, so the result is the raw array
+    _state.categories = Array.isArray(data) ? data : (data.categories || data.data || []);
   } catch { /* non-fatal */ }
 }
 

@@ -22,3 +22,11 @@ export function verifyOtp(phone, otp) {
 export function testLogin() {
   return api.post('/auth/test-login', {});
 }
+
+export function registerWithPassword(name, email, password) {
+  return api.post('/auth/register', { name, email, password });
+}
+
+export function loginWithPassword(email, password) {
+  return api.post('/auth/login', { email, password });
+}

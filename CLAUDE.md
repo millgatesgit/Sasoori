@@ -101,3 +101,33 @@ else if (path.startsWith("/slug/")) { ... }
 ## External HTTP Services
 
 All 5 HTTP service classes (`GoogleOAuthService`, `RazorpayService`, `ShiprocketService`, `SmsService`, `WhatsAppService`) use `java.net.HttpURLConnection` — **not** `java.net.http.HttpClient`. The HttpClient constructor triggers `Selector.open()` which fails on this machine (same NIO bug as Jetty). Do not reintroduce `HttpClient`.
+
+## Git
+
+- **Remote:** `origin https://github.com/millgatesgit/Sasoori.git`
+- **Default branch:** `main`
+
+**Common commands:**
+```bash
+git add src/ frontend/ pom.xml CLAUDE.md   # stage specific files — never `git add .`
+git commit -m "feat: describe change"
+git push origin main
+```
+
+**`.gitignore` notes — what is NOT tracked:**
+- `target/` — Maven build output (WAR, classes)
+- `*.jar` — This excludes `pipefix.jar`. After a fresh clone you must rebuild it:
+  ```bash
+  cd pipefix/src
+  javac PipeFixAgent.java
+  jar cfm ../../pipefix.jar ../MANIFEST.MF PipeFixAgent.class
+  ```
+- `*.log`, `work/` — Runtime logs and Jetty work directory
+- `.env` — Never commit secrets
+- `yajsw/yajsw-stable-13.18/` — The YAJSW binary distribution is not tracked; only `yajsw/conf/` and the bat scripts are committed. Download YAJSW 13.18 separately if needed.
+
+**After a fresh clone, to get the dev server running:**
+1. Rebuild `pipefix.jar` (see above)
+2. Start PostgreSQL: `net start postgresql-x64-15`
+3. Run schema + seed: `psql -U sasoori sasoori_db -f src/main/resources/db/schema.sql`
+4. Start backend: `bash start-dev.sh` or via `preview_start`

@@ -24,7 +24,7 @@ public class UserDao {
     // ── Queries ───────────────────────────────────────────────────────────
 
     public Optional<User> findById(String id) throws SQLException {
-        String sql = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active," +
+        String sql = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active,password_hash," +
                      "created_at,updated_at FROM users WHERE id=?::uuid";
         try (Connection c = ds.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -37,7 +37,7 @@ public class UserDao {
     }
 
     public Optional<User> findByGoogleSub(String googleSub) throws SQLException {
-        String sql = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active," +
+        String sql = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active,password_hash," +
                      "created_at,updated_at FROM users WHERE google_sub=?";
         try (Connection c = ds.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -64,7 +64,7 @@ public class UserDao {
                     name        = EXCLUDED.name,
                     picture_url = EXCLUDED.picture_url,
                     updated_at  = NOW()
-            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,created_at,updated_at
+            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,password_hash,created_at,updated_at
             """;
         try (Connection c = ds.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -90,7 +90,7 @@ public class UserDao {
             VALUES (?)
             ON CONFLICT (phone) DO UPDATE
                 SET updated_at = NOW()
-            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,created_at,updated_at
+            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,password_hash,created_at,updated_at
             """;
         try (Connection c = ds.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -113,7 +113,7 @@ public class UserDao {
             VALUES ('dev-test-user', 'test@sasoori.dev', 'Test User', 'CUSTOMER')
             ON CONFLICT (google_sub) DO UPDATE
                 SET updated_at = NOW()
-            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,created_at,updated_at
+            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,password_hash,created_at,updated_at
             """;
         try (Connection c = ds.getConnection();
              PreparedStatement ps = c.prepareStatement(sql);
@@ -131,7 +131,7 @@ public class UserDao {
         size = Math.min(size, 50);
         int offset = (Math.max(page, 1) - 1) * size;
         String countSql = "SELECT COUNT(*) FROM users";
-        String dataSql  = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active," +
+        String dataSql  = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active,password_hash," +
                           "created_at,updated_at FROM users ORDER BY created_at DESC LIMIT ? OFFSET ?";
         try (Connection c = ds.getConnection()) {
             int total;
@@ -172,6 +172,43 @@ public class UserDao {
 
     // ── Mapper ────────────────────────────────────────────────────────────
 
+    // ── Password-auth queries ─────────────────────────────────────────────
+
+    /** Finds a user by email — includes password_hash for auth verification. */
+    public Optional<User> findByEmail(String email) throws SQLException {
+        String sql = "SELECT id,google_sub,email,phone,name,picture_url,role,is_active,password_hash," +
+                     "created_at,updated_at FROM users WHERE email=?";
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, email.toLowerCase().trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return Optional.of(map(rs));
+            }
+        }
+        return Optional.empty();
+    }
+
+    /** Creates a new email+password user. Throws on duplicate email (SQL unique constraint). */
+    public User createPasswordUser(String email, String name, String passwordHash) throws SQLException {
+        String sql = """
+            INSERT INTO users (email, name, password_hash)
+            VALUES (?, ?, ?)
+            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,password_hash,created_at,updated_at
+            """;
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, email.toLowerCase().trim());
+            ps.setString(2, name.trim());
+            ps.setString(3, passwordHash);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return map(rs);
+            }
+        }
+        throw new IllegalStateException("createPasswordUser returned no row for email=" + email);
+    }
+
+    // ── Mapper ────────────────────────────────────────────────────────────
+
     private static User map(ResultSet rs) throws SQLException {
         User u = new User();
         u.setId(rs.getString("id"));
@@ -182,6 +219,7 @@ public class UserDao {
         u.setPictureUrl(rs.getString("picture_url"));
         u.setRole(rs.getString("role"));
         u.setActive(rs.getBoolean("is_active"));
+        u.setPasswordHash(rs.getString("password_hash"));
         Timestamp ca = rs.getTimestamp("created_at");
         if (ca != null) u.setCreatedAt(ca.toInstant().atOffset(java.time.ZoneOffset.UTC));
         Timestamp ua = rs.getTimestamp("updated_at");

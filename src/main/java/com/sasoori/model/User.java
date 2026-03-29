@@ -15,6 +15,7 @@ public class User {
     private String         pictureUrl;
     private String         role;        // CUSTOMER | ADMIN
     private boolean        isActive;
+    private String         passwordHash; // PBKDF2 — never serialised to client
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
@@ -45,6 +46,9 @@ public class User {
 
     public boolean isActive()                  { return isActive; }
     public void    setActive(boolean active)   { isActive = active; }
+
+    public String getPasswordHash()                        { return passwordHash; }
+    public void   setPasswordHash(String passwordHash)     { this.passwordHash = passwordHash; }
 
     public OffsetDateTime getCreatedAt()                      { return createdAt; }
     public void           setCreatedAt(OffsetDateTime v)      { this.createdAt = v; }

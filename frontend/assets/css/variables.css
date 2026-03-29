@@ -1,0 +1,196 @@
+/* ============================================================
+   SASOORI — Design Tokens
+   All colors, fonts, spacing, shadows live here.
+   Never hardcode values anywhere else — always use var().
+   ============================================================ */
+
+:root {
+  /* ── Brand Colors ─────────────────────────────────────── */
+  --clr-primary:        #00923F;   /* Saroori dark green — CTAs, active */
+  --clr-primary-dark:   #006B2E;   /* Hover / pressed */
+  --clr-primary-light:  #E6F5EC;   /* Tinted bg, selected chips */
+  --clr-secondary:      #84C225;   /* Saroori light green — highlights */
+  --clr-secondary-light:#F2FAE3;   /* Light green tinted bg */
+  --clr-accent:         #F57F17;   /* Warm amber — badges, sale */
+  --clr-accent-light:   #FFF8E1;   /* Accent tinted bg */
+
+  /* ── Neutrals ─────────────────────────────────────────── */
+  --clr-bg:             #FAFAF7;   /* Page background */
+  --clr-surface:        #FFFFFF;   /* Cards, modals, inputs */
+  --clr-border:         #E8E3DC;   /* Subtle warm borders */
+  --clr-divider:        #F0EDE8;   /* Section dividers */
+
+  /* ── Text ─────────────────────────────────────────────── */
+  --clr-text-h:         #1A1A1A;   /* Headings */
+  --clr-text-b:         #444444;   /* Body */
+  --clr-text-m:         #888888;   /* Muted / placeholder */
+  --clr-text-inv:       #FFFFFF;   /* Inverse (on dark bg) */
+
+  /* ── Feedback ─────────────────────────────────────────── */
+  --clr-success:        #00923F;
+  --clr-success-bg:     #E6F5EC;
+  --clr-error:          #C62828;
+  --clr-error-bg:       #FFEBEE;
+  --clr-warning:        #F57C00;
+  --clr-warning-bg:     #FFF3E0;
+  --clr-info:           #0277BD;
+  --clr-info-bg:        #E1F5FE;
+
+  /* ── Typography ───────────────────────────────────────── */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  --ts-xs:   0.75rem;    /* 12px */
+  --ts-sm:   0.875rem;   /* 14px */
+  --ts-base: 1rem;       /* 16px */
+  --ts-lg:   1.125rem;   /* 18px */
+  --ts-xl:   1.375rem;   /* 22px */
+  --ts-2xl:  1.75rem;    /* 28px */
+  --ts-3xl:  2.25rem;    /* 36px */
+  --ts-4xl:  3rem;       /* 48px */
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  --lh-tight:  1.25;
+  --lh-normal: 1.5;
+  --lh-loose:  1.75;
+
+  /* ── Spacing (8px base) ────────────────────────────────── */
+  --sp-1:  0.25rem;  /* 4px */
+  --sp-2:  0.5rem;   /* 8px */
+  --sp-3:  0.75rem;  /* 12px */
+  --sp-4:  1rem;     /* 16px */
+  --sp-5:  1.25rem;  /* 20px */
+  --sp-6:  1.5rem;   /* 24px */
+  --sp-8:  2rem;     /* 32px */
+  --sp-10: 2.5rem;   /* 40px */
+  --sp-12: 3rem;     /* 48px */
+  --sp-16: 4rem;     /* 64px */
+  --sp-20: 5rem;     /* 80px */
+
+  /* ── Border Radius ────────────────────────────────────── */
+  --r-xs:   4px;
+  --r-sm:   6px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-xl:   16px;
+  --r-2xl:  24px;
+  --r-full: 9999px;
+
+  /* ── Shadows ──────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+  --shadow-focus: 0 0 0 3px rgba(0,146,63,0.25);
+
+  /* ── Transitions ──────────────────────────────────────── */
+  --t-fast:   150ms ease;
+  --t-normal: 250ms ease;
+  --t-slow:   400ms ease;
+
+  /* ── Z-index scale ────────────────────────────────────── */
+  --z-header:   100;
+  --z-dropdown: 200;
+  --z-modal:    300;
+  --z-toast:    400;
+
+  /* ── Layout ───────────────────────────────────────────── */
+  --max-width: 1200px;
+  --header-h:  64px;
+  --bottom-nav-h: 56px;
+  --sidebar-w: 240px;
+}
+
+/* ── Footer surface tokens (referenced in layout.css) ───── */
+:root {
+  --clr-footer-bg:       #1A2E1A;
+  --clr-footer-text:     #C8D4C8;
+  --clr-footer-heading:  #F0F4F0;
+  --clr-footer-muted:    #7A9B7D;
+  --clr-footer-border:   #2D4230;
+  --clr-footer-link:     #A8C8AA;
+  --clr-footer-link-hov: #84C225;
+}
+
+/* ── Dark mode: OS-level fallback ───────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --clr-bg:             #0F1A0F;
+    --clr-surface:        #1C2B1C;
+    --clr-border:         #2D4230;
+    --clr-divider:        #243524;
+    --clr-text-h:         #F0F4F0;
+    --clr-text-b:         #C8D4C8;
+    --clr-text-m:         #7A9B7D;
+    --clr-text-inv:       #0F1A0F;
+    --clr-primary-light:  rgba(0,146,63,0.15);
+    --clr-secondary-light:rgba(132,194,37,0.12);
+    --clr-accent-light:   rgba(245,127,23,0.15);
+    --clr-success-bg:     rgba(0,146,63,0.15);
+    --clr-error-bg:       rgba(198,40,40,0.15);
+    --clr-warning-bg:     rgba(245,124,0,0.15);
+    --clr-info-bg:        rgba(2,119,189,0.15);
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
+  }
+}
+
+/* ── Dark mode: manual toggle override ─────────────────── */
+[data-theme="dark"] {
+  --clr-bg:             #0F1A0F;
+  --clr-surface:        #1C2B1C;
+  --clr-border:         #2D4230;
+  --clr-divider:        #243524;
+  --clr-text-h:         #F0F4F0;
+  --clr-text-b:         #C8D4C8;
+  --clr-text-m:         #7A9B7D;
+  --clr-text-inv:       #0F1A0F;
+  --clr-primary-light:  rgba(0,146,63,0.15);
+  --clr-secondary-light:rgba(132,194,37,0.12);
+  --clr-accent-light:   rgba(245,127,23,0.15);
+  --clr-success-bg:     rgba(0,146,63,0.15);
+  --clr-error-bg:       rgba(198,40,40,0.15);
+  --clr-warning-bg:     rgba(245,124,0,0.15);
+  --clr-info-bg:        rgba(2,119,189,0.15);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* ── Light mode: explicit override (manual toggle) ──────── */
+[data-theme="light"] {
+  --clr-bg:             #FAFAF7;
+  --clr-surface:        #FFFFFF;
+  --clr-border:         #E8E3DC;
+  --clr-divider:        #F0EDE8;
+  --clr-text-h:         #1A1A1A;
+  --clr-text-b:         #444444;
+  --clr-text-m:         #888888;
+  --clr-text-inv:       #FFFFFF;
+  --clr-primary-light:  #E6F5EC;
+  --clr-secondary-light:#F2FAE3;
+  --clr-accent-light:   #FFF8E1;
+  --clr-success-bg:     #E6F5EC;
+  --clr-error-bg:       #FFEBEE;
+  --clr-warning-bg:     #FFF3E0;
+  --clr-info-bg:        #E1F5FE;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

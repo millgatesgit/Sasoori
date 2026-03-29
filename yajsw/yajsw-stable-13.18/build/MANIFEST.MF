@@ -1,0 +1,70 @@
+Manifest-Version: 1.0
+Class-Path-Wrapper-Core: 
+ ./wrapperApp.jar 
+ ./lib/core/permit/permit-reflect-0.4.jar 
+ ./lib/core/yajsw/ahessian.jar 
+ ./lib/core/netty/netty-codec-base-4.2.6.Final.jar 
+ ./lib/core/netty/netty-handler-4.2.6.Final.jar 
+ ./lib/core/netty/netty-transport-4.2.6.Final.jar 
+ ./lib/core/netty/netty-buffer-4.2.6.Final.jar 
+ ./lib/core/netty/netty-common-4.2.6.Final.jar 
+ ./lib/core/netty/netty-resolver-4.2.6.Final.jar 
+ ./lib/core/jna/jna-5.12.1.jar 
+ ./lib/core/jna/jna-platform-5.12.1.jar 
+ ./lib/core/commons/commons-configuration2-2.10.1.jar 
+ ./lib/core/commons/commons-text-1.10.0.jar 
+ ./lib/core/commons/commons-vfs2-2.10.0.jar 
+ ./lib/core/commons/commons-collections-3.2.2.jar 
+ ./lib/core/commons/commons-io-2.17.0.jar  
+ ./lib/core/commons/commons-lang3-3.18.0.jar 
+ ./lib/core/commons/commons-logging-1.2.jar 
+ ./lib/core/commons/commons-cli-1.5.0.jar
+  
+Class-Path-Wrapper-Extended: 
+ ./lib/extended/groovy/groovy-patch.jar 
+ ./lib/extended/groovy/groovy-patch9.jar 
+ ./lib/extended/groovy/groovy-4.0.12.jar 
+ ./lib/extended/commons/commons-httpclient-4.5.13.jar 
+ ./lib/extended/commons/commons-codec-1.15.jar 
+ ./lib/extended/commons/commons-net-3.11.1.jar 
+ ./lib/extended/regex/automaton-1.11.jar 
+ ./lib/extended/yajsw/hessian4.jar 
+ ./lib/extended/yajsw/srvmgr.jar 
+ ./lib/extended/glazedlists/glazedlists-1.10.0_java16.jar 
+ ./lib/extended/glazedlists/commons-beanutils-1.9.4.jar 
+ ./lib/extended/cron/joda-time-2.7.jar 
+ ./lib/extended/cron/yacron4j-00.03.jar 
+ ./lib/extended/velocity/velocity-engine-core-2.4.1.jar 
+ ./lib/extended/slf4j/slf4j-api-1.7.30.jar 
+ ./lib/extended/slf4j/slf4j-simple-1.7.30.jar 
+ ./lib/extended/jgoodies/forms-1.2.0.jar 
+ ./lib/extended/sigar/sigar-1.6.4.jar 
+ ./lib/extended/sigar/sigar-lib-1.6.4.jar 
+ ./lib/extended/keystore/keystore.jar 
+ ./lib/extended/abeille/formsrt.jar
+  
+Class-Path-App: 
+ ./wrapper.jar 
+ ./lib/core/permit/permit-reflect-0.4.jar 
+ ./lib/core/yajsw/ahessian.jar 
+ ./lib/core/netty/netty-codec-base-4.2.6.Final.jar 
+ ./lib/core/netty/netty-handler-4.2.6.Final.jar 
+ ./lib/core/netty/netty-transport-4.2.6.Final.jar 
+ ./lib/core/netty/netty-buffer-4.2.6.Final.jar 
+ ./lib/core/netty/netty-common-4.2.6.Final.jar 
+ ./lib/core/netty/netty-resolver-4.2.6.Final.jar 
+ ./lib/core/commons/commons-text-1.10.0.jar 
+ ./lib/core/commons/commons-configuration2-2.10.1.jar  
+ ./lib/core/commons/commons-vfs2-2.10.0.jar 
+ ./lib/core/commons/commons-collections-3.2.2.jar 
+ ./lib/core/commons/commons-io-2.17.0.jar  
+ ./lib/core/commons/commons-lang3-3.18.0.jar 
+ ./lib/core/commons/commons-logging-1.2.jar
+  
+Class-Path-App-Extended: 
+ ./lib/extended/groovy/groovy-patch.jar 
+ ./lib/extended/groovy/groovy-patch9.jar 
+ ./lib/extended/groovy/groovy-4.0.12.jar
+ 
+Main-Class: org.rzo.yajsw.boot.WrapperExeBooter
+

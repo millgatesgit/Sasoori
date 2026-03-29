@@ -1,0 +1,35 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Frontend Dev Server",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "frontend", "-p", "3000", "--no-clipboard"],
+      "port": 3000
+    },
+    {
+      "name": "Backend (Tomcat via Maven)",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:\\Program Files\\NetBeans-23\\netbeans\\java\\maven\\bin\\mvn.cmd",
+        "jetty:run",
+        "-Dserver.port=${PORT}"
+      ],
+      "port": 9090,
+      "autoPort": true,
+      "env": {
+        "JAVA_HOME": "C:\\Program Files\\Java\\jdk-17",
+        "MAVEN_OPTS": "-javaagent:E:/Work/Sasoori/pipefix.jar",
+        "DB_URL": "jdbc:postgresql://localhost:5432/sasoori_db",
+        "DB_USER": "sasoori",
+        "DB_PASSWORD": "sasoori123",
+        "GOOGLE_CLIENT_ID": "dev",
+        "GOOGLE_CLIENT_SECRET": "dev",
+        "FRONTEND_URL": "http://localhost:3000,http://localhost:5500",
+        "SECURE_COOKIE": "false",
+        "DEV_MODE": "true"
+      }
+    }
+  ]
+}

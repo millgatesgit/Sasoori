@@ -1,0 +1,50 @@
+Now I have the full picture. Open **3 separate terminal windows** in `E:\Work\Sasoori`:
+
+---
+
+### Terminal 1 — PostgreSQL (if not already running as a service)
+```bash
+# Check if already running as a Windows service (usually auto-starts)
+pg_ctl status -D "C:/Program Files/PostgreSQL/16/data"
+
+# If not running:
+pg_ctl start -D "C:/Program Files/PostgreSQL/16/data"
+```
+> If PostgreSQL is installed as a Windows service it's likely already running — you can skip this.
+
+---
+
+### Terminal 2 — Backend (Jetty on port 9090)
+```bash
+cd E:\Work\Sasoori
+mvn jetty:run
+```
+Backend API will be at `http://localhost:9090/api/v1/...`
+
+---
+
+### Terminal 3 — Frontend (static file server on any port)
+```bash
+cd E:\Work\Sasoori\frontend
+npx serve . -p 5500
+# OR if you have Python:
+python -m http.server 5500
+# OR VS Code Live Server also works (right-click index.html → Open with Live Server)
+```
+Frontend will be at `http://localhost:5500`
+
+---
+
+**Why two servers?** The frontend is a plain static SPA (no Vite/Webpack). In dev, the browser opens the frontend at port 5500 and makes API calls to `http://localhost:9090` (the `_isDev` check in `apiClient.js` handles this automatically).
+
+**Startup order**: PostgreSQL → Backend (`mvn jetty:run`) → Frontend static server.
+
+
+
+:: Development (console windows, see logs live):
+yajsw\startAll.bat
+
+:: Production (Windows Services, start on boot):
+:: Run as Administrator:
+yajsw\installServices.bat
+yajsw\startServices.bat

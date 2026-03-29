@@ -1,0 +1,24 @@
+ext {
+		projectHome = '../../..'
+}
+
+sourceSets.main.java.srcDirs = ["$projectHome/src/ahessian/src/main/java"]
+
+// this project uses the ahessian sub-project
+dependencies {
+	  implementation project(':hessian4')
+    implementation group: 'netty', 							name: 'netty-codec-base', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-handler', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-transport', 									version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-buffer', 										version: "$netty_version"
+    implementation group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
+}
+
+println '---------------------------'
+println 'dependency jars:'
+println '---------------------------'
+configurations.compileClasspath.each { File file -> println file.absolutePath }
+println '---------------------------'
+
+jar.archiveBaseName  = 'ahessian'
+

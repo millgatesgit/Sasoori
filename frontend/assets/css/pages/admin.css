@@ -1,0 +1,545 @@
+/* ── Admin Panel ──────────────────────────────────────────────────────────── */
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+
+.adm-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+
+.adm-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--clr-surface);
+  border-right: 1px solid var(--clr-border);
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-4) 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 720px) {
+  .adm-sidebar {
+    width: 60px;
+    overflow: hidden;
+  }
+  .adm-sidebar-logo,
+  .adm-nav-link span,
+  .adm-logout {
+    display: none;
+  }
+}
+
+.adm-sidebar-logo {
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--clr-border);
+  margin-bottom: var(--sp-3);
+}
+
+.adm-logo {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--clr-primary);
+  text-decoration: none;
+}
+
+.adm-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 var(--sp-2);
+  flex: 1;
+}
+
+.adm-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--clr-text-b);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.adm-nav-link:hover,
+.adm-nav-link.active {
+  background: var(--clr-primary-light, rgba(0,146,63,0.08));
+  color: var(--clr-primary);
+}
+
+.adm-logout {
+  margin-top: auto;
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--text-sm);
+  color: var(--clr-text-m);
+  text-decoration: none;
+}
+
+.adm-logout:hover { color: var(--clr-primary); }
+
+/* ── Main content ─────────────────────────────────────────────────────────── */
+
+.adm-main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--sp-6) var(--sp-6);
+  background: var(--clr-bg);
+}
+
+@media (max-width: 540px) {
+  .adm-main { padding: var(--sp-4) var(--sp-3); }
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────── */
+
+.adm-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-5);
+}
+
+.adm-page-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--clr-text-h);
+  margin-bottom: 0;
+}
+
+h1.adm-page-title {
+  margin-bottom: var(--sp-5);
+}
+
+/* ── Dashboard stats ──────────────────────────────────────────────────────── */
+
+.adm-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.adm-stat-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+}
+
+.adm-stat-warn {
+  border-color: #ffc107;
+}
+
+.adm-stat-label {
+  font-size: var(--text-sm);
+  color: var(--clr-text-m);
+  margin-bottom: var(--sp-2);
+}
+
+.adm-stat-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--clr-text-h);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Two-column layout ────────────────────────────────────────────────────── */
+
+.adm-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+}
+
+@media (max-width: 860px) {
+  .adm-two-col { grid-template-columns: 1fr; }
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────────── */
+
+.adm-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+}
+
+.adm-card-title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--clr-text-h);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────── */
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.adm-table-full {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.adm-table th {
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--clr-text-m);
+  border-bottom: 1px solid var(--clr-border);
+  background: var(--clr-bg);
+}
+
+.adm-table td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-text-b);
+  vertical-align: middle;
+}
+
+.adm-table tr:last-child td { border-bottom: none; }
+.adm-table tr:hover td { background: var(--clr-bg); }
+
+.adm-table .adm-row-danger td { background: #fff3f3; }
+[data-theme="dark"] .adm-table .adm-row-danger td { background: rgba(220,53,69,0.08); }
+
+.adm-td-name { font-weight: 500; color: var(--clr-text-h); max-width: 200px; }
+.adm-td-actions { white-space: nowrap; }
+.adm-muted { color: var(--clr-text-m); font-size: 13px; }
+.adm-warn-text { color: var(--clr-warning, #f57c00); font-weight: 600; }
+.adm-link { color: var(--clr-primary); text-decoration: none; }
+.adm-link:hover { text-decoration: underline; }
+
+/* ── Status dots ──────────────────────────────────────────────────────────── */
+
+.adm-status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.adm-status-dot::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.adm-dot-active::before  { background: var(--clr-primary); }
+.adm-dot-inactive::before { background: var(--clr-text-m); }
+
+/* ── Badges ───────────────────────────────────────────────────────────────── */
+
+.adm-badge-warn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff3cd;
+  color: #856404;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+}
+
+[data-theme="dark"] .adm-badge-warn { background: rgba(255,193,7,0.2); color: #ffd54f; }
+
+/* ── Form card ────────────────────────────────────────────────────────────── */
+
+.adm-form-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+
+.adm-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.adm-form-actions {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+/* ── Filter select ────────────────────────────────────────────────────────── */
+
+.adm-filter-select {
+  width: auto;
+  min-width: 160px;
+  font-size: var(--text-sm);
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.adm-status-select {
+  font-size: 12px;
+  padding: var(--sp-1) var(--sp-2);
+  min-width: 120px;
+}
+
+/* ── User table ───────────────────────────────────────────────────────────── */
+
+.adm-user-name  { font-weight: 500; color: var(--clr-text-h); }
+.adm-user-email { font-size: 12px; margin-top: 1px; }
+
+.adm-role-select {
+  font-size: 12px;
+  padding: 3px var(--sp-2);
+  min-width: 100px;
+}
+
+.adm-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+
+.adm-toggle-label { color: var(--clr-text-m); }
+
+/* ── Misc ─────────────────────────────────────────────────────────────────── */
+
+.adm-loading {
+  padding: var(--sp-8);
+  text-align: center;
+  color: var(--clr-text-m);
+  font-size: var(--text-sm);
+}
+
+.adm-empty-msg {
+  padding: var(--sp-6);
+  text-align: center;
+  color: var(--clr-text-m);
+  font-size: var(--text-sm);
+}
+
+/* ── Slide-in Panel ──────────────────────────────────────────────── */
+.adm-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.adm-panel {
+  background: var(--clr-surface);
+  width: 100%;
+  max-width: 520px;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  animation: panel-in 200ms ease;
+}
+
+@keyframes panel-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.adm-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--clr-border);
+  position: sticky;
+  top: 0;
+  background: var(--clr-surface);
+  z-index: 1;
+}
+
+.adm-panel-title {
+  font-size: var(--ts-lg);
+  font-weight: var(--fw-semi);
+  color: var(--clr-text-h);
+}
+
+.adm-panel-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--r-md);
+  font-size: var(--ts-lg);
+  color: var(--clr-text-m);
+}
+.adm-panel-close:hover { background: var(--clr-divider); color: var(--clr-text-h); }
+
+.adm-panel-body {
+  padding: var(--sp-6);
+  flex: 1;
+}
+
+.adm-panel-footer {
+  padding: var(--sp-4) var(--sp-6);
+  border-top: 1px solid var(--clr-border);
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: flex-end;
+  background: var(--clr-surface);
+}
+
+/* ── Order/Shipment Timeline ─────────────────────────────────────── */
+.adm-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.adm-timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--clr-border);
+}
+
+.adm-timeline-item {
+  display: flex;
+  gap: var(--sp-3);
+  padding: 0 0 var(--sp-4) 0;
+  position: relative;
+}
+
+.adm-timeline-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--clr-divider);
+  border: 2px solid var(--clr-border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  z-index: 1;
+}
+
+.adm-timeline-dot.done  { background: var(--clr-success); border-color: var(--clr-success); color: white; }
+.adm-timeline-dot.active{ background: var(--clr-primary);  border-color: var(--clr-primary);  color: white; }
+
+.adm-timeline-label { font-size: var(--ts-sm); font-weight: var(--fw-semi); color: var(--clr-text-h); }
+.adm-timeline-time  { font-size: var(--ts-xs); color: var(--clr-text-m); }
+
+/* ── Detail grid (order/invoice two-col) ─────────────────────────── */
+.adm-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+}
+
+@media (max-width: 768px) {
+  .adm-detail-grid { grid-template-columns: 1fr; }
+  .adm-panel { max-width: 100%; }
+}
+
+/* ── Inline expand row (shipment tracking) ───────────────────────── */
+.adm-track-row {
+  background: var(--clr-bg);
+  border-top: none;
+}
+
+.adm-track-row td {
+  padding: var(--sp-4) var(--sp-5);
+}
+
+/* ── Stat card click state ───────────────────────────────────────── */
+.adm-stat-card { cursor: pointer; transition: box-shadow var(--t-fast); }
+.adm-stat-card:hover { box-shadow: var(--shadow-md); }
+
+/* ── Invoice preview ─────────────────────────────────────────────── */
+.adm-invoice-preview {
+  background: white;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-md);
+  padding: var(--sp-8);
+  font-family: var(--font-body);
+  color: #1a1a1a;
+}
+
+.adm-invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-6);
+  border-bottom: 2px solid var(--clr-primary);
+}
+
+.adm-invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-4) 0;
+}
+
+.adm-invoice-table th {
+  text-align: left;
+  font-size: var(--ts-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--clr-text-m);
+  border-bottom: 1px solid var(--clr-border);
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.adm-invoice-table td {
+  padding: var(--sp-3);
+  font-size: var(--ts-sm);
+  border-bottom: 1px solid var(--clr-divider);
+}
+
+.adm-invoice-totals {
+  margin-left: auto;
+  width: 220px;
+}
+
+.adm-invoice-totals tr td:last-child { text-align: right; font-weight: 600; }
+
+@media print {
+  .adm-layout, .adm-sidebar, .adm-page-header { display: none !important; }
+  .adm-invoice-preview { border: none; padding: 0; box-shadow: none; }
+}

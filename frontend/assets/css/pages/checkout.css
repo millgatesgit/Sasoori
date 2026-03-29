@@ -1,0 +1,358 @@
+/* ── Checkout Page ─────────────────────────────────────────────────────── */
+
+.checkout-page {
+  padding-block: var(--sp-8) var(--sp-16);
+}
+
+.co-page-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--clr-text-h);
+  margin-bottom: var(--sp-6);
+}
+
+/* ── Two-column layout ───────────────────────────────────────────────── */
+
+.co-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .co-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Section titles ──────────────────────────────────────────────────── */
+
+.co-section-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--clr-text-h);
+  margin-bottom: var(--sp-4);
+}
+
+/* ── Address cards ───────────────────────────────────────────────────── */
+
+.addr-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.addr-none {
+  color: var(--clr-text-m);
+  font-size: var(--text-sm);
+  margin-bottom: var(--sp-4);
+}
+
+.addr-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 2px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  background: var(--clr-surface);
+}
+
+.addr-card:hover {
+  border-color: var(--clr-primary);
+}
+
+.addr-card.selected {
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 3px var(--clr-primary-10, rgba(0,146,63,0.10));
+}
+
+.addr-card input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--clr-primary);
+  flex-shrink: 0;
+}
+
+.addr-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.addr-card-name {
+  font-weight: 600;
+  color: var(--clr-text-h);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.addr-card-detail,
+.addr-card-phone {
+  font-size: var(--text-sm);
+  color: var(--clr-text-m);
+  line-height: 1.5;
+}
+
+.badge-default {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--clr-primary);
+  background: var(--clr-primary-10, rgba(0,146,63,0.10));
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+/* ── Add address button & form ───────────────────────────────────────── */
+
+.co-add-addr-btn {
+  margin-bottom: var(--sp-4);
+  font-size: var(--text-sm);
+}
+
+.new-addr-form {
+  background: var(--clr-surface-2, var(--clr-surface));
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-4);
+}
+
+.new-addr-form.hidden {
+  display: none;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.form-group--pincode {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 600px) {
+  .form-group--pincode {
+    grid-column: auto;
+  }
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--clr-text-m);
+  cursor: pointer;
+  margin-block: var(--sp-3) var(--sp-4);
+}
+
+.form-error {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--clr-danger, #dc3545);
+}
+
+.form-error.hidden {
+  display: none;
+}
+
+/* ── Order summary (right column) ────────────────────────────────────── */
+
+.co-right > div {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  position: sticky;
+  top: 80px;
+}
+
+.co-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.co-item {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: var(--sp-3);
+  align-items: start;
+}
+
+.co-item-img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--clr-border);
+}
+
+.co-item-name {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--clr-text-h);
+  line-height: 1.35;
+}
+
+.co-item-meta {
+  font-size: 12px;
+  color: var(--clr-text-m);
+  margin-top: 2px;
+}
+
+.co-item-total {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--clr-text-h);
+  white-space: nowrap;
+}
+
+.co-divider {
+  height: 1px;
+  background: var(--clr-border);
+  margin-block: var(--sp-3);
+}
+
+.co-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--clr-text);
+  margin-bottom: var(--sp-2);
+}
+
+.co-summary-total {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--clr-text-h);
+  margin-bottom: 0;
+}
+
+.co-free-shipping {
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+.co-shipping-hint {
+  font-size: 12px;
+  color: var(--clr-text-m);
+  margin-top: -var(--sp-1);
+  margin-bottom: var(--sp-2);
+}
+
+/* ── Sticky CTA bar ──────────────────────────────────────────────────── */
+
+.co-cta-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--clr-surface);
+  border-top: 1px solid var(--clr-border);
+  padding: var(--sp-3) var(--sp-4);
+  z-index: 100;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 861px) {
+  .co-cta-bar {
+    display: none; /* On desktop the pay button is visible in-page; show inline btn instead */
+  }
+}
+
+.co-cta-inner {
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.co-cta-label {
+  font-size: var(--text-xs);
+  color: var(--clr-text-m);
+  display: block;
+}
+
+.co-cta-amount {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--clr-text-h);
+}
+
+.co-pay-btn {
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.co-addr-warning {
+  font-size: var(--text-xs);
+  color: var(--clr-danger, #dc3545);
+  text-align: center;
+  margin-top: var(--sp-1);
+}
+
+/* ── Desktop inline pay button ───────────────────────────────────────── */
+
+.co-pay-desktop {
+  display: none;
+}
+
+@media (min-width: 861px) {
+  .co-pay-desktop {
+    display: block;
+    width: 100%;
+    margin-top: var(--sp-4);
+  }
+}
+
+/* ── Empty + error states ────────────────────────────────────────────── */
+
+.co-empty {
+  padding: var(--sp-12) var(--sp-6);
+  text-align: center;
+  color: var(--clr-text-m);
+}
+
+.co-empty .btn {
+  margin-top: var(--sp-4);
+  display: inline-block;
+}
+
+.co-error {
+  background: #fff3f3;
+  color: var(--clr-danger, #dc3545);
+  border: 1px solid #f5c2c7;
+  border-radius: var(--radius-md);
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--text-sm);
+  margin-bottom: var(--sp-5);
+}
+
+.co-error.hidden {
+  display: none;
+}
+
+[data-theme="dark"] .co-error {
+  background: rgba(220, 53, 69, 0.12);
+  border-color: rgba(220, 53, 69, 0.3);
+}

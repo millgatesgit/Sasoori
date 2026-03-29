@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Anti-FOWT: set theme before first paint to avoid flash -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('sasoori-theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sasoori — Pure cold pressed oils and masala powders. From our home to your home." />
+  <meta name="theme-color" content="#00923F" />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Sasoori — Pure. Natural. Delivered." />
+  <meta property="og:description" content="Cold pressed oils and masala powders with no additives or preservatives." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:image"       content="/assets/images/og-cover.jpg" />
+
+  <title>Sasoori — Pure. Natural. Delivered.</title>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/variables.css" />
+  <link rel="stylesheet" href="assets/css/reset.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/pages/products.css" />
+  <link rel="stylesheet" href="assets/css/pages/product.css" />
+  <link rel="stylesheet" href="assets/css/pages/cart.css" />
+  <link rel="stylesheet" href="assets/css/pages/checkout.css" />
+  <link rel="stylesheet" href="assets/css/pages/orders.css" />
+  <link rel="stylesheet" href="assets/css/pages/admin.css" />
+
+  <!-- Critical inline styles -->
+  <style>
+    /* Prevent flash of unstyled content */
+    body { opacity: 0; transition: opacity 0.2s; }
+    body.ready { opacity: 1; }
+
+    /* Hero gradient fallback while image loads */
+    .hero { min-height: 480px; }
+
+    @media (min-width: 1024px) {
+      .hero { min-height: 560px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+
+      <!-- Hamburger (mobile) -->
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- Logo -->
+      <a href="#/" class="logo" aria-label="Sasoori home">
+        <img src="assets/images/saroori-logo.png" alt="Saroori" class="logo-img" height="44" />
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#/products?category=oils"   class="nav-link">Cold Pressed Oils</a>
+        <a href="#/products?category=masala" class="nav-link">Masala Powders</a>
+        <a href="#/products?tag=new"         class="nav-link">New Arrivals</a>
+        <a href="#/products?tag=offers"      class="nav-link">Offers</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <button class="search-btn" id="searchBtn" aria-label="Search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <span class="search-btn-text">Search products…</span>
+        </button>
+
+        <a href="#/cart" class="cart-btn" aria-label="Cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge" data-count="0" aria-label="0 items in cart">0</span>
+        </a>
+
+        <!-- Theme toggle -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle dark mode">
+          <!-- Moon: shown in light mode -->
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+          <!-- Sun: shown in dark mode -->
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- Login button (shown when logged out) -->
+        <a href="#/login" class="login-btn" id="loginBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          Sign In
+        </a>
+
+        <!-- User avatar (shown when logged in, hidden by default) -->
+        <div class="user-avatar hidden" id="userAvatar" role="button" aria-label="My account">
+          <img src="" alt="Profile" id="userAvatarImg" />
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+    <nav>
+      <a href="#/products?category=oils"   class="mobile-nav-link">🫙 Cold Pressed Oils</a>
+      <a href="#/products?category=masala" class="mobile-nav-link">🌶 Masala Powders</a>
+      <a href="#/products?tag=new"         class="mobile-nav-link">✨ New Arrivals</a>
+      <a href="#/products?tag=offers"      class="mobile-nav-link">🏷️ Offers</a>
+      <a href="#/orders"                   class="mobile-nav-link">📦 My Orders</a>
+    </nav>
+  </div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-panel container">
+      <div class="search-input-wrap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="search" class="search-input" id="searchInput"
+               placeholder="Search oils, masalas…"
+               autocomplete="off" aria-label="Search products" />
+        <button class="btn-ghost btn-sm" id="searchClose">Cancel</button>
+      </div>
+      <div id="searchResults" style="padding-top:var(--sp-4)"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN SPA CONTAINER — router renders pages here
+  ══════════════════════════════════════════════════ -->
+  <div id="app">
+    <main id="main" role="main">
+      <!-- Page content injected by router.js -->
+    </main>
+
+    <!-- ══════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════ -->
+    <footer class="site-footer" role="contentinfo" id="siteFooter">
+      <div class="container">
+        <div class="footer-grid">
+
+          <!-- Brand column -->
+          <div class="footer-brand">
+            <a href="#/" class="logo">
+              <img src="assets/images/saroori-logo-reverse.png" alt="Saroori" class="logo-img" height="52" />
+            </a>
+            <p class="footer-tagline">"From Our Home to Your Home"</p>
+            <p class="footer-desc">
+              Pure cold pressed oils and masala powders, made the traditional way.
+              No preservatives. No shortcuts. Just goodness.
+            </p>
+          </div>
+
+          <!-- Shop -->
+          <div>
+            <h4 class="footer-heading">Shop</h4>
+            <ul class="footer-links">
+              <li><a href="#/products?category=oils">Cold Pressed Oils</a></li>
+              <li><a href="#/products?category=masala">Masala Powders</a></li>
+              <li><a href="#/products?tag=new">New Arrivals</a></li>
+              <li><a href="#/products?tag=offers">Offers</a></li>
+            </ul>
+          </div>
+
+          <!-- Company -->
+          <div>
+            <h4 class="footer-heading">Company</h4>
+            <ul class="footer-links">
+              <li><a href="#/about">About Us</a></li>
+              <li><a href="#/blog">Blog</a></li>
+              <li><a href="#/contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Legal & Contact -->
+          <div>
+            <h4 class="footer-heading">Help</h4>
+            <ul class="footer-links">
+              <li><a href="#/faq">FAQ</a></li>
+              <li><a href="#/returns">Return Policy</a></li>
+              <li><a href="#/privacy">Privacy Policy</a></li>
+              <li><a href="#/terms">Terms of Service</a></li>
+            </ul>
+            <div class="footer-contact" style="margin-top:var(--sp-4)">
+              <a href="tel:+919999999999">📞 +91-99999-99999</a>
+              <a href="mailto:hello@sasoori.com">📧 hello@sasoori.com</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom">
+          <span>© 2025 Sasoori. All rights reserved.</span>
+          <span>Made with ❤️ in India</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       BOTTOM NAVIGATION (mobile)
+  ══════════════════════════════════════════════════ -->
+  <nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
+    <a href="#/" class="bottom-nav-item active" data-route="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Home
+    </a>
+    <button class="bottom-nav-item" id="bottomSearch" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      Search
+    </button>
+    <a href="#/cart" class="bottom-nav-item" data-route="/cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      Cart
+    </a>
+    <a href="#/orders" class="bottom-nav-item" data-route="/orders" id="bottomProfile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profile
+    </a>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       SCRIPTS — loaded as ES modules
+  ══════════════════════════════════════════════════ -->
+  <!-- Razorpay checkout SDK — loaded deferred, used only on checkout page -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+
+  <script type="module" src="src/app.js"></script>
+
+</body>
+</html>

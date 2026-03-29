@@ -1,0 +1,34 @@
+# PostgreSQL tuning for 8GB RAM single-server (append to /etc/postgresql/15/main/postgresql.conf)
+# Run: sudo systemctl restart postgresql after applying
+
+# Memory
+shared_buffers = 2GB
+effective_cache_size = 5GB
+work_mem = 16MB
+maintenance_work_mem = 256MB
+huge_pages = try
+
+# Connections — keep low, HikariCP pools for us
+max_connections = 30
+
+# WAL
+wal_buffers = 64MB
+checkpoint_completion_target = 0.9
+wal_compression = on
+
+# Query planner
+random_page_cost = 1.1       # SSD: lower than default 4.0
+effective_io_concurrency = 200
+
+# Logging (useful during initial deployment)
+log_min_duration_statement = 1000   # log queries slower than 1s
+log_checkpoints = on
+log_connections = off
+log_disconnections = off
+log_lock_waits = on
+log_temp_files = 0
+
+# Performance
+synchronous_commit = off            # safe for this workload; big perf gain
+autovacuum = on
+autovacuum_vacuum_cost_delay = 2ms

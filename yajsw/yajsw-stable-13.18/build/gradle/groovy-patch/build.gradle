@@ -1,0 +1,37 @@
+ext {
+projectHome = '../../..'
+}
+sourceSets.main.java.srcDirs = ["$projectHome/src/groovy-patch/src/main/java"]
+
+//println '---------------------------'
+//println 'src dirs:'
+//println '---------------------------'
+//sourceSets.main.java.srcDirs.each { File file -> println file.absolutePath }
+//println '---------------------------'
+
+
+dependencies {
+    implementation project(':wrapper')
+}
+
+dependencies {
+    implementation group: 'commons-configuration2', name: 'commons-configuration2', 	version: "$commons_configuration_version"
+    implementation group: 'groovy-all', 					name: 'groovy', 							version: "$groovy_version"
+	implementation group: 'netty', 							name: 'netty-common', 										version: "$netty_version"
+}
+
+//println '---------------------------'
+//println 'dependency jars:'
+//println '---------------------------'
+//configurations.compileClasspath.each { File file -> println file.absolutePath }
+//println '---------------------------'
+
+// name of jar file
+jar.archiveBaseName = 'groovy-patch'
+
+// TODO generate manifest
+jar {
+    manifest {
+//        from '../../MANIFEST.MF'
+    }
+}

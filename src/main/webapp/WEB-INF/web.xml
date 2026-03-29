@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+  <display-name>Sasoori Backend</display-name>
+
+  <!-- Bootstrap listener — wires all singletons -->
+  <listener>
+    <listener-class>com.sasoori.config.AppContextListener</listener-class>
+  </listener>
+
+  <!-- ── Filter chain (order matters: Security → CORS → JWT) ──────────── -->
+
+  <filter>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <filter-class>com.sasoori.filter.SecurityHeadersFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <url-pattern>/api/v1/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>CORSFilter</filter-name>
+    <filter-class>com.sasoori.filter.CORSFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CORSFilter</filter-name>
+    <url-pattern>/api/v1/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>JWTAuthFilter</filter-name>
+    <filter-class>com.sasoori.filter.JWTAuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>JWTAuthFilter</filter-name>
+    <url-pattern>/api/v1/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Servlets registered via @WebServlet annotations — no web.xml entries needed -->
+
+  <!-- ── Session config (stateless — cookies only for refresh token) ──── -->
+  <session-config>
+    <session-timeout>30</session-timeout>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>false</secure><!-- overridden to true in prod via Nginx + env -->
+    </cookie-config>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+
+</web-app>

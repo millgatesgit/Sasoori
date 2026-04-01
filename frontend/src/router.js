@@ -20,6 +20,7 @@ const routes = [
   { path: '/checkout',       page: () => import('./pages/checkout.js'),  auth: true },
   { path: '/orders',         page: () => import('./pages/orders.js'),    auth: true },
   { path: '/orders/:id',     page: () => import('./pages/orderDetail.js'), auth: true },
+  { path: '/profile',        page: () => import('./pages/profile.js'),  auth: true },
   { path: '/login',          page: () => import('./pages/login.js') },
   { path: '/oauth/callback', page: () => import('./pages/oauthCallback.js') },
   { path: '/admin',          page: () => import('./pages/admin/dashboard.js'), admin: true },
@@ -128,8 +129,10 @@ async function resolve() {
       try { await page.onMount({ params, query }); } catch (e) { console.error('onMount error:', e); }
     }
 
-    // Hide footer on admin pages
-    footer.style.display = path.startsWith('/admin') ? 'none' : '';
+    // Hide storefront chrome on admin pages
+    const isAdmin = path.startsWith('/admin');
+    footer.style.display = isAdmin ? 'none' : '';
+    document.body.classList.toggle('adm-mode', isAdmin);
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'instant' });

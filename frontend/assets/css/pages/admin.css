@@ -1,5 +1,17 @@
 /* ── Admin Panel ──────────────────────────────────────────────────────────── */
 
+/* Hide storefront chrome when in admin mode */
+body.adm-mode .site-header,
+body.adm-mode .bottom-nav,
+body.adm-mode .mobile-menu,
+body.adm-mode .search-overlay {
+  display: none !important;
+}
+
+body.adm-mode #app {
+  padding-top: 0;
+}
+
 /* ── Layout ───────────────────────────────────────────────────────────────── */
 
 .adm-layout {
@@ -23,14 +35,14 @@
   overflow-y: auto;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 540px) {
   .adm-sidebar {
-    width: 60px;
+    width: 56px;
     overflow: hidden;
   }
   .adm-sidebar-logo,
   .adm-nav-link span,
-  .adm-logout {
+  .adm-sidebar-footer span {
     display: none;
   }
 }
@@ -39,6 +51,10 @@
   padding: var(--sp-4) var(--sp-5);
   border-bottom: 1px solid var(--clr-border);
   margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
 }
 
 .adm-logo {
@@ -47,6 +63,39 @@
   font-weight: 700;
   color: var(--clr-primary);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.adm-sidebar-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--clr-primary);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: var(--radius-full, 999px);
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .adm-sidebar-badge { display: none; }
+}
+
+.adm-sidebar-footer {
+  margin-top: auto;
+  padding: var(--sp-2) var(--sp-2) var(--sp-4);
+  border-top: 1px solid var(--clr-border);
+}
+
+.adm-back-link {
+  color: var(--clr-text-m) !important;
+}
+.adm-back-link:hover {
+  color: var(--clr-primary) !important;
+  background: var(--clr-primary-light, rgba(0,146,63,0.08));
 }
 
 .adm-nav {
@@ -76,15 +125,6 @@
   color: var(--clr-primary);
 }
 
-.adm-logout {
-  margin-top: auto;
-  padding: var(--sp-3) var(--sp-5);
-  font-size: var(--text-sm);
-  color: var(--clr-text-m);
-  text-decoration: none;
-}
-
-.adm-logout:hover { color: var(--clr-primary); }
 
 /* ── Main content ─────────────────────────────────────────────────────────── */
 

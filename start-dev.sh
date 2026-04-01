@@ -17,7 +17,7 @@ export DB_USER="sasoori"
 export DB_PASSWORD="sasoori123"
 export GOOGLE_CLIENT_ID="dev"
 export GOOGLE_CLIENT_SECRET="dev"
-export FRONTEND_URL="http://localhost:3000,http://localhost:5500"
+export FRONTEND_URL="http://localhost:3000,http://localhost:5500,https://vaccinial-mauricio-stagily.ngrok-free.dev"
 export SECURE_COOKIE="false"
 export DEV_MODE="true"
 

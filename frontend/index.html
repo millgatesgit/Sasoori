@@ -21,6 +21,7 @@
   <meta property="og:type"        content="website" />
   <meta property="og:image"       content="/assets/images/og-cover.jpg" />
 
+  <link rel="icon" type="image/png" href="assets/images/saroori-logo.png" />
   <title>Sasoori — Pure. Natural. Delivered.</title>
 
   <!-- Preconnect for fonts -->
@@ -42,6 +43,8 @@
   <link rel="stylesheet" href="assets/css/pages/checkout.css" />
   <link rel="stylesheet" href="assets/css/pages/orders.css" />
   <link rel="stylesheet" href="assets/css/pages/admin.css" />
+  <link rel="stylesheet" href="assets/css/pages/home.css" />
+  <link rel="stylesheet" href="assets/css/pages/profile.css" />
 
   <!-- Critical inline styles -->
   <style>
@@ -81,6 +84,7 @@
         <a href="#/products?category=masala" class="nav-link">Masala Powders</a>
         <a href="#/products?tag=new"         class="nav-link">New Arrivals</a>
         <a href="#/products?tag=offers"      class="nav-link">Offers</a>
+        <a href="#/admin" class="nav-link nav-link-admin hidden" id="adminNavLink">Admin</a>
       </nav>
 
       <!-- Actions -->
@@ -124,9 +128,34 @@
           Sign In
         </a>
 
-        <!-- User avatar (shown when logged in, hidden by default) -->
-        <div class="user-avatar hidden" id="userAvatar" role="button" aria-label="My account">
-          <img src="" alt="Profile" id="userAvatarImg" />
+        <!-- User menu (shown when logged in, hidden by default) -->
+        <div class="user-menu hidden" id="userMenu">
+          <button class="user-avatar" id="userAvatarBtn" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">
+            <img src="" alt="" id="userAvatarImg" class="hidden" />
+            <svg id="userAvatarIcon" class="user-avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+          <div class="user-dropdown" id="userDropdown" role="menu" aria-hidden="true">
+            <a href="#/profile" class="user-dropdown-item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              My Profile
+            </a>
+            <a href="#/orders" class="user-dropdown-item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              My Orders
+            </a>
+            <a href="#/admin" class="user-dropdown-item hidden" id="dropdownAdminLink" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Admin Panel
+            </a>
+            <div class="user-dropdown-divider"></div>
+            <button class="user-dropdown-item user-dropdown-signout" id="signOutBtn" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
         </div>
       </div>
 
@@ -141,7 +170,14 @@
       <a href="#/products?tag=new"         class="mobile-nav-link">✨ New Arrivals</a>
       <a href="#/products?tag=offers"      class="mobile-nav-link">🏷️ Offers</a>
       <a href="#/orders"                   class="mobile-nav-link">📦 My Orders</a>
+      <a href="#/admin" class="mobile-nav-link hidden" id="adminMobileLink">⚙️ Admin Panel</a>
     </nav>
+    <div class="mobile-menu-footer hidden" id="mobileSignOutWrap">
+      <button class="mobile-nav-link mobile-signout-btn" id="mobileSignOutBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
   </div>
 
   <!-- Search Overlay -->

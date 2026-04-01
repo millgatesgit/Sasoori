@@ -150,6 +150,26 @@ public class UserDao {
         }
     }
 
+    /** Updates name and phone for the given user; returns the refreshed row. */
+    public User updateProfile(String id, String name, String phone) throws SQLException {
+        String sql = """
+            UPDATE users SET name=?, phone=?, updated_at=NOW()
+            WHERE id=?::uuid
+            RETURNING id,google_sub,email,phone,name,picture_url,role,is_active,password_hash,created_at,updated_at
+            """;
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, name);
+            if (phone != null && !phone.isBlank()) ps.setString(2, phone.trim());
+            else ps.setNull(2, java.sql.Types.VARCHAR);
+            ps.setString(3, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return map(rs);
+            }
+        }
+        throw new IllegalStateException("updateProfile returned no row for id=" + id);
+    }
+
     public void setActive(String id, boolean active) throws SQLException {
         String sql = "UPDATE users SET is_active=?, updated_at=NOW() WHERE id=?::uuid";
         try (Connection c = ds.getConnection();

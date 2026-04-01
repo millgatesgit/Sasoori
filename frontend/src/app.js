@@ -70,26 +70,48 @@ async function restoreSession() {
   } catch { /* no session — anonymous user, continue */ }
 }
 
-/** Update header to show user avatar or login button */
+/** Update header to show user menu or login button */
 function updateHeaderUser(user) {
-  const loginBtn   = document.getElementById('loginBtn');
-  const userAvatar = document.getElementById('userAvatar');
-  const avatarImg  = document.getElementById('userAvatarImg');
+  const loginBtn          = document.getElementById('loginBtn');
+  const userMenu          = document.getElementById('userMenu');
+  const avatarImg         = document.getElementById('userAvatarImg');
+  const avatarIcon        = document.getElementById('userAvatarIcon');
+  const avatarBtn         = document.getElementById('userAvatarBtn');
+  const adminNavLink      = document.getElementById('adminNavLink');
+  const adminMobileLink   = document.getElementById('adminMobileLink');
+  const dropdownAdminLink = document.getElementById('dropdownAdminLink');
+  const mobileSignOutWrap = document.getElementById('mobileSignOutWrap');
+
+  const isAdmin = user?.role === 'ADMIN';
 
   if (user) {
     loginBtn?.classList.add('hidden');
-    userAvatar?.classList.remove('hidden');
-    if (avatarImg && user.picture) {
+    userMenu?.classList.remove('hidden');
+
+    if (user.picture) {
       avatarImg.src = user.picture;
       avatarImg.alt = user.name || 'Profile';
+      avatarImg.classList.remove('hidden');
+      avatarIcon?.classList.add('hidden');
+      avatarBtn?.classList.add('has-picture');
+    } else {
+      avatarImg.src = '';
+      avatarImg.classList.add('hidden');
+      avatarIcon?.classList.remove('hidden');
+      avatarBtn?.classList.remove('has-picture');
     }
-    // User avatar click → go to orders
-    userAvatar?.addEventListener('click', () => {
-      window.location.hash = '/orders';
-    }, { once: false });
+
+    // Admin-only elements
+    adminNavLink?.classList.toggle('hidden', !isAdmin);
+    adminMobileLink?.classList.toggle('hidden', !isAdmin);
+    dropdownAdminLink?.classList.toggle('hidden', !isAdmin);
+    mobileSignOutWrap?.classList.remove('hidden');
   } else {
     loginBtn?.classList.remove('hidden');
-    userAvatar?.classList.add('hidden');
+    userMenu?.classList.add('hidden');
+    adminNavLink?.classList.add('hidden');
+    adminMobileLink?.classList.add('hidden');
+    mobileSignOutWrap?.classList.add('hidden');
   }
 }
 
@@ -113,7 +135,7 @@ function bindHeaderUI() {
     menuBtn.setAttribute('aria-expanded', isOpen);
   });
 
-  // Close menu on nav link click
+  // Close mobile menu on nav link click
   mobileMenu?.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
@@ -122,13 +144,38 @@ function bindHeaderUI() {
     });
   });
 
-  // Close menu on outside click
+  // ── User dropdown ──────────────────────────────────────────
+  const avatarBtn  = document.getElementById('userAvatarBtn');
+  const dropdown   = document.getElementById('userDropdown');
+
+  avatarBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = dropdown.classList.toggle('open');
+    avatarBtn.setAttribute('aria-expanded', open);
+    dropdown.setAttribute('aria-hidden', !open);
+  });
+
+  // Close dropdown on outside click
   document.addEventListener('click', (e) => {
     if (!menuBtn?.contains(e.target) && !mobileMenu?.contains(e.target)) {
       mobileMenu?.classList.remove('open');
       menuBtn?.classList.remove('open');
     }
+    if (!avatarBtn?.contains(e.target) && !dropdown?.contains(e.target)) {
+      dropdown?.classList.remove('open');
+      avatarBtn?.setAttribute('aria-expanded', 'false');
+    }
   });
+
+  // ── Sign Out ───────────────────────────────────────────────
+  document.getElementById('signOutBtn')?.addEventListener('click', _signOut);
+  document.getElementById('mobileSignOutBtn')?.addEventListener('click', _signOut);
+}
+
+async function _signOut() {
+  try { await api.post('/auth/logout'); } catch { /* revoke best-effort */ }
+  store.clearUser();
+  window.location.hash = '/login';
 }
 
 /** Search overlay */

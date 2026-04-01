@@ -111,17 +111,44 @@ export function _shell(content) {
     <div class="adm-layout">
       <aside class="adm-sidebar">
         <div class="adm-sidebar-logo">
-          <a href="#/" class="adm-logo">🌿 Sasoori</a>
+          <a href="#/" class="adm-logo">
+            <img src="assets/images/saroori-logo.png" alt="Sasroori" height="32" style="display:block;flex-shrink:0" />
+            <span>Saroori</span>
+          </a>
+          <span class="adm-sidebar-badge">Admin</span>
         </div>
         <nav class="adm-nav">
-          <a href="#/admin"          class="adm-nav-link" data-route="/admin">📊 Dashboard</a>
-          <a href="#/admin/products" class="adm-nav-link" data-route="/admin/products">📦 Products</a>
-          <a href="#/admin/orders"   class="adm-nav-link" data-route="/admin/orders">🛒 Orders</a>
-          <a href="#/admin/users"    class="adm-nav-link" data-route="/admin/users">👥 Users</a>
-          <a href="#/admin/shipments" class="adm-nav-link" data-route="/admin/shipments">🚚 Shipments</a>
-          <a href="#/admin/invoices"  class="adm-nav-link" data-route="/admin/invoices">🧾 Invoices</a>
+          <a href="#/admin" class="adm-nav-link" data-route="/admin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="#/admin/products" class="adm-nav-link" data-route="/admin/products">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            <span>Products</span>
+          </a>
+          <a href="#/admin/orders" class="adm-nav-link" data-route="/admin/orders">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span>Orders</span>
+          </a>
+          <a href="#/admin/users" class="adm-nav-link" data-route="/admin/users">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>Users</span>
+          </a>
+          <a href="#/admin/shipments" class="adm-nav-link" data-route="/admin/shipments">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Shipments</span>
+          </a>
+          <a href="#/admin/invoices" class="adm-nav-link" data-route="/admin/invoices">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Invoices</span>
+          </a>
         </nav>
-        <a href="#/" class="adm-nav-link adm-logout">← Back to Shop</a>
+        <div class="adm-sidebar-footer">
+          <a href="#/" class="adm-nav-link adm-back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Back to Shop</span>
+          </a>
+        </div>
       </aside>
       <main class="adm-main">
         ${content}

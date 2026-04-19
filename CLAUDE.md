@@ -14,6 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **UI language:** Bilingual Tamil + English — the business originates from Tamil Nadu and serves both Tamil-speaking and general Indian customers.
 
+**Device target:** Mobile-first — the majority of customers browse and shop on smartphones. All UI must be fully responsive and touch-friendly. Desktop is secondary.
+
 ### Product Catalogue
 
 4 categories, ~40 SKUs total:
@@ -112,6 +114,8 @@ else if (path.startsWith("/slug/")) { ... }
 **State management (`src/store.js`):** Simple pub/sub store. Components subscribe via `store.subscribe(listener)`. Key state keys: `user`, `cart`, `cartCount`, `theme`.
 
 **Page module contract:** Each page exports `{ render, onMount, onDestroy, meta }`. `render()` returns HTML string injected into the app container. `onMount()` attaches event listeners after DOM insertion.
+
+**Mobile-first UI:** All pages must be fully responsive. Design for small screens first — touch targets, readable font sizes, stacked layouts — then scale up for desktop. Most users are on mobile.
 
 ### Key Domain Rules
 

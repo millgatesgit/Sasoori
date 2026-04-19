@@ -2,6 +2,40 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Business Context
+
+**Sasoori** is a direct-to-consumer (D2C) e-commerce store selling homemade, traditionally made food products — cold pressed oils, masala powders, flours & grains, and health mixes. One family business manufactures all products themselves and sells directly to customers across India via this web app. The brand name is a family name.
+
+**Core brand differentiators:** No Adulteration · Freshly Ground · Direct from Farmers · No Preservatives · Traditional Method · Cold Pressed
+
+**Target audience:** Health-conscious Indian consumers seeking natural, additive-free alternatives to mass-produced food products.
+
+**Geographic scope:** Pan-India delivery via Shiprocket courier integration.
+
+**UI language:** Bilingual Tamil + English — the business originates from Tamil Nadu and serves both Tamil-speaking and general Indian customers.
+
+### Product Catalogue
+
+4 categories, ~40 SKUs total:
+
+| Category | Slug | Products |
+|----------|------|---------|
+| Cold Pressed Oils | `oils` | Sesame Oil (100ml / 500ml / 1L), Coconut Oil (500ml / 1L), Groundnut Oil (1L) |
+| Masala Powders | `masala` | Sambar, Chilli, Coriander, Turmeric, Curry Masala, Kara Masala, Chicken Masala, Dal Powder (various sizes) |
+| Flours & Grains | `flours` | Wheat, Ragi, Gram, Pearl Millet, Sorghum, Small Millet Mix, Urad Dal (various sizes) |
+| Health Mixes | `health` | Sasoori Health Mix, Cane Sugar, Groundnuts (500g) |
+
+**SKU format:** `SAR-{CATEGORY}-{PRODUCT}-{WEIGHT}` — e.g. `SAR-OIL-SES-500`, `SAR-MAS-SAM-100`
+
+### User Roles
+
+| Role | Access |
+|------|--------|
+| `CUSTOMER` | Browse products, manage cart, place orders, manage addresses, view order history |
+| `ADMIN` | All customer access + product CRUD, order status management, user management, shipment tracking, invoices, dashboard analytics |
+
+---
+
 ## Dev Server
 
 **Start the backend (port 9090):**
@@ -37,8 +71,8 @@ curl -X POST http://localhost:9090/api/v1/auth/test-login \
 
 - PostgreSQL 15, service name: `postgresql-x64-15`
 - DB: `sasoori_db`, user: `sasoori`, password: `sasoori123`
-- Schema: `src/main/resources/db/schema.sql` (13 tables)
-- Seed data: `src/main/resources/db/seed.sql` (4 categories, 30+ products)
+- Schema: `src/main/resources/db/schema.sql` (13 tables + audit_log = 14 total)
+- Seed data: `src/main/resources/db/seed.sql` (4 categories, 40 products)
 - All monetary values are stored in **paise** (₹1 = 100 paise)
 
 ## Architecture
@@ -61,11 +95,13 @@ if (path.equals("") || path.equals("/")) { ... }
 else if (path.startsWith("/slug/")) { ... }
 ```
 
-**Error handling:** `BaseServlet.handleException()` maps `ApiException` to JSON `{"success":false,"error":{"code":"...", "message":"..."}}`. All servlets extend `BaseServlet`.
+**Error handling:** `BaseServlet.handleException()` maps `ApiException` to JSON `{"success":false,"error":{"code":"...", "message":"..."}}`. All servlets extend `BaseServlet`. Add new error codes to `ApiException` — never use raw strings — so errors remain traceable across logs and the frontend.
 
 **OffsetDateTime serialization:** `JsonUtil.GSON` has a registered `TypeAdapter<OffsetDateTime>` (ISO_OFFSET_DATE_TIME). All timestamps in models must use `OffsetDateTime`, not `LocalDateTime`.
 
 **Database arrays:** When binding PostgreSQL `TEXT[]` parameters, do NOT use `try-with-resources` on `ps.getConnection()` — it closes the shared connection. Use `ps.getConnection().createArrayOf("text", arr)` directly.
+
+**Product list cache:** `ProductService` keeps a 60-second in-memory cache of paginated list results (keyed by `category|search|tag|sort|page|size`). The cache is invalidated on any product write (create/update/delete). Do not bypass this cache layer for storefront reads.
 
 ### Frontend
 
@@ -79,11 +115,105 @@ else if (path.startsWith("/slug/")) { ... }
 
 ### Key Domain Rules
 
-- **Stock decrement** happens inside a `SERIALIZABLE` transaction in `OrderService` — stock is checked and decremented atomically to prevent overselling.
-- **Prices are snapshots** — `order_items` stores `product_name` and `unit_price_paise` at time of order; product price changes don't affect existing orders.
+- **Stock decrement** happens inside a `SERIALIZABLE` transaction in `OrderService` — stock is checked and decremented atomically to prevent overselling. The transaction retries once on serialization failure (SQLState `40001`).
+- **Prices are snapshots** — `order_items` stores `product_name`, `product_sku`, and `unit_price_paise` at time of order; product price changes don't affect existing orders.
 - **Shipping address is a JSON snapshot** — stored as `JSONB` in `orders.shipping_address`, not a foreign key.
 - **Refresh tokens are rotated** on every use. Reuse of a revoked token invalidates the entire family (all tokens for that user session).
 - **Product `findById` vs `findByIdAdmin`** — `findById` filters `is_active = TRUE` (for storefront); `findByIdAdmin` fetches regardless of active status (for admin CRUD). Always use `findByIdAdmin` after create/update operations.
+- **Low stock alert threshold** — admin dashboard flags products with `stock_qty < 10`.
+
+---
+
+## Domain Model
+
+### Order Lifecycle
+
+```
+PENDING                (order created, awaiting payment)
+  ↓
+PAYMENT_INITIATED      (Razorpay checkout opened by customer)
+  ↓
+PAID                   (payment captured, stock already decremented)
+  ↓
+PROCESSING             (admin has acknowledged, preparing for dispatch)
+  ↓
+SHIPPED                (handed to Shiprocket courier, AWB assigned)
+  ↓
+DELIVERED              (courier confirms delivery)
+
+At PENDING or PAID only:
+  ↓
+CANCELLED              (user or admin cancels; stock restored)
+  ↓
+REFUND_INITIATED       (refund process started)
+  ↓
+REFUNDED               (refund confirmed)
+```
+
+State transitions are validated in `OrderDao.updateStatus()`. Only admin can move an order to `PROCESSING`, `SHIPPED`, or `DELIVERED`. Customers can cancel only while the order is `PENDING` or `PAID`.
+
+### Pricing Rules
+
+| Concept | Value | Storage |
+|---------|-------|---------|
+| Selling price | `price_paise` | Paise (₹1 = 100) |
+| MRP (shown crossed out) | `mrp_paise` | Paise |
+| Free shipping threshold | ₹499 (`49900` paise) | Configured in `AppConfig` |
+| Standard shipping charge | ₹49 (`4900` paise) | Configured in `AppConfig` |
+| Discount | `discount_paise` | Always `0` for now — reserved for future coupon system |
+
+Discount calculation for display: `((mrp - price) / mrp) * 100` — computed at render time, not stored.
+
+### Authentication Methods
+
+Three independent login methods can be linked to the same user account (matched on phone / Google sub / email):
+
+| Method | Identity field | Notes |
+|--------|---------------|-------|
+| Google OAuth (PKCE) | `google_sub` | RS256 ID token validation |
+| Phone OTP | `phone` | 6-digit, 5 min expiry, max 3 attempts, rate-limited 2/5 min |
+| Email + Password | `email` | PBKDF2 hash, never stored in plaintext |
+
+Access tokens: RS256 JWT, 15 min TTL. Refresh tokens: 256-bit random, SHA-256 stored in DB, 7-day TTL, rotated on every use.
+
+### Product Tags
+
+Products use a `TEXT[]` tags column for merchandising and filtering:
+
+| Tag | Meaning |
+|-----|---------|
+| `featured` | Shown in home page featured section |
+| `bestseller` | "Best Seller" badge on category cards |
+| `new` | "New" badge on product cards |
+| `healthy` | Health-oriented filter |
+| `glutenfree` | Gluten-free filter |
+| Category tags (`oils`, `masala`, `flours`, `health`) | Match category slug for cross-filtering |
+
+---
+
+## Future Roadmap
+
+These features are **not yet built** but should be designed in a way that makes them straightforward to add:
+
+| Feature | Notes |
+|---------|-------|
+| Thermal paper shipping label printing | Print order + address in thermal format for packaging; likely a new admin endpoint generating a minimal HTML/PDF |
+| Coupon / discount codes | `discount_paise` column in `orders` is already reserved; a `coupons` table and validation step in `OrderService.placeOrder()` needs to be added |
+| Search enhancements | Full-text search exists on `name + description`; future work: typo tolerance, synonym expansion, search suggestions |
+
+### Integrations Not Yet Finalised
+
+The following integrations are wired but the **specific provider is not confirmed**. Services are intentionally abstracted behind a single class so the provider can be swapped without touching business logic:
+
+| Integration | Current implementation | Status |
+|-------------|----------------------|--------|
+| Payment gateway | `RazorpayService` | Not finalised — may be replaced |
+| OTP / login notifications | `SmsService` (msg91 + fast2sms dual-provider) + `WhatsAppService` | Not finalised — WhatsApp may become the primary channel; SMS is optional |
+| Shipping | `ShiprocketService` | In use, likely to stay |
+
+**When swapping a provider:** create a new service class with the same method signatures, update the wiring in `AppContextListener`, and update the relevant env vars in `Required Env Vars`. No other code should need to change.
+
+---
 
 ## Required Env Vars
 

@@ -24,9 +24,8 @@ public class DatabaseConfig {
         hk.setPassword(cfg.dbPassword);
         hk.setDriverClassName("org.postgresql.Driver");
 
-        // Pool sizing (tuned for 8 GB single-VPS — see plan §10)
-        hk.setMaximumPoolSize(15);
-        hk.setMinimumIdle(5);
+        hk.setMaximumPoolSize(cfg.dbPoolMax);
+        hk.setMinimumIdle(cfg.dbPoolMinIdle);
         hk.setConnectionTimeout(20_000);   // 20 s — fail fast
         hk.setIdleTimeout(300_000);         // 5 min
         hk.setMaxLifetime(1_200_000);       // 20 min
@@ -35,7 +34,7 @@ public class DatabaseConfig {
         hk.setPoolName("SasooriPool");
 
         this.dataSource = new HikariDataSource(hk);
-        log.info("HikariCP pool initialised — maxPoolSize=15, url={}", cfg.dbUrl);
+        log.info("HikariCP pool initialised — maxPoolSize={}, url={}", cfg.dbPoolMax, cfg.dbUrl);
     }
 
     public DataSource getDataSource() {

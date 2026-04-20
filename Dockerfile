@@ -5,7 +5,7 @@ WORKDIR /app
 # Cache Maven dependencies before copying source
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
-RUN ./mvnw -q dependency:go-offline
+RUN chmod +x mvnw && ./mvnw -q dependency:go-offline
 
 # Copy backend source and frontend (bundled into the WAR as static files)
 COPY src ./src

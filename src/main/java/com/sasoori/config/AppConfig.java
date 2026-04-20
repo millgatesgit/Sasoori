@@ -24,6 +24,8 @@ public class AppConfig {
     public final String dbUrl;
     public final String dbUser;
     public final String dbPassword;
+    public final int    dbPoolMax;
+    public final int    dbPoolMinIdle;
 
     // ── JWT ───────────────────────────────────────────────────────────────
     public final PrivateKey jwtPrivateKey;
@@ -70,9 +72,11 @@ public class AppConfig {
     private static volatile AppConfig INSTANCE;
 
     private AppConfig() {
-        this.dbUrl      = require("DB_URL");
-        this.dbUser     = require("DB_USER");
-        this.dbPassword = require("DB_PASSWORD");
+        this.dbUrl         = require("DB_URL");
+        this.dbUser        = require("DB_USER");
+        this.dbPassword    = require("DB_PASSWORD");
+        this.dbPoolMax     = Integer.parseInt(env("DB_POOL_MAX",      "10"));
+        this.dbPoolMinIdle = Integer.parseInt(env("DB_POOL_MIN_IDLE", "2"));
 
         this.googleClientId     = require("GOOGLE_CLIENT_ID");
         this.googleClientSecret = require("GOOGLE_CLIENT_SECRET");

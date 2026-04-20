@@ -16,7 +16,7 @@ RUN ./mvnw -q package -DskipTests
 # ── Stage 2: Run ─────────────────────────────────────────────────────────────
 # Tomcat 10.1 = Jakarta Servlet 6.0 (matches pom.xml)
 # pipefix.jar is NOT needed — that workaround is Windows-only (NIO AF_UNIX bug)
-FROM tomcat:10.1-jre17-temurin-alpine
+FROM tomcat:10.1-jdk17-temurin
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=build /app/target/sasoori-backend-1.0.0-SNAPSHOT.war \
                   /usr/local/tomcat/webapps/ROOT.war

@@ -30,4 +30,5 @@ work/
 # Graphify temp files
 .graphify_*.json
 .graphify_*.txt
-graphify-out/
+graphify-out/obsidian/
+graphify-out/cache/

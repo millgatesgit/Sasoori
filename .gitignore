@@ -26,3 +26,8 @@ logs/
 
 # Tomcat temp files
 work/
+
+# Graphify temp files
+.graphify_*.json
+.graphify_*.txt
+graphify-out/

@@ -1,5 +1,24 @@
 # CLAUDE.md
 
+## Codebase Navigation
+
+**Use the knowledge graph before reading source files.** A persistent graph of the entire codebase lives in `graphify-out/`:
+
+- `graphify-out/GRAPH_REPORT.md` — start here: community map, god nodes, key relationships
+- `graphify-out/graph.json` — machine-readable graph (1056 nodes, 2064 edges, 55 communities)
+- `graphify-out/graph.html` — interactive browser visualization
+
+**In-session queries (if graphify skill is installed):**
+```
+/graphify query "how does order placement work?"
+/graphify path "AuthServlet" "TokenService"
+/graphify explain "ProductService"
+```
+
+Top god nodes (most connected): `Product` (40) · `AdminServlet` (29) · `showToast()` (28) · `Order` (28) · `formatPrice()` (27)
+
+**Only read source files when the graph answer is insufficient for the specific change you're making.**
+
 ## Business Context
 
 **Sasoori** is a D2C e-commerce store — one family business manufactures and sells homemade food products (cold pressed oils, masala powders, flours, health mixes) directly to customers across India. Brand name is a family name.

@@ -69,7 +69,7 @@
 
 .addr-card.selected {
   border-color: var(--clr-primary);
-  box-shadow: 0 0 0 3px var(--clr-primary-10, rgba(0,146,63,0.10));
+  box-shadow: 0 0 0 3px var(--clr-primary-10, rgba(196,70,42,0.10));
 }
 
 .addr-card input[type="radio"] {
@@ -109,7 +109,7 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--clr-primary);
-  background: var(--clr-primary-10, rgba(0,146,63,0.10));
+  background: var(--clr-primary-10, rgba(196,70,42,0.10));
   padding: 1px 6px;
   border-radius: var(--radius-full);
 }

@@ -95,7 +95,7 @@ body.adm-mode #app {
 }
 .adm-back-link:hover {
   color: var(--clr-primary) !important;
-  background: var(--clr-primary-light, rgba(0,146,63,0.08));
+  background: var(--clr-primary-light, rgba(196,70,42,0.08));
 }
 
 .adm-nav {
@@ -121,7 +121,7 @@ body.adm-mode #app {
 
 .adm-nav-link:hover,
 .adm-nav-link.active {
-  background: var(--clr-primary-light, rgba(0,146,63,0.08));
+  background: var(--clr-primary-light, rgba(196,70,42,0.08));
   color: var(--clr-primary);
 }
 

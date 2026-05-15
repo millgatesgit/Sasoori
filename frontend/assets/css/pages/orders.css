@@ -37,19 +37,19 @@
   letter-spacing: 0.04em;
 }
 
-.badge-pending    { background: #fff8e1; color: #e65100; }
-.badge-paid       { background: #e8f5e9; color: var(--clr-primary); }
-.badge-processing { background: #e3f2fd; color: #0277bd; }
-.badge-shipped    { background: #ede7f6; color: #6a1b9a; }
-.badge-delivered  { background: #e8f5e9; color: var(--clr-primary); }
-.badge-cancelled  { background: #fce4ec; color: #c62828; }
+.badge-pending    { background: #FDF7E4; color: #92600A; }
+.badge-paid       { background: #FAEEE9; color: var(--clr-primary-dark); }
+.badge-processing { background: #EFF6FF; color: #1D4ED8; }
+.badge-shipped    { background: #F5F3FF; color: #6D28D9; }
+.badge-delivered  { background: #E6F5F5; color: #0D7377; }
+.badge-cancelled  { background: #FDEDEB; color: #C0392B; }
 
-[data-theme="dark"] .badge-pending    { background: rgba(230,81,0,0.15);   color: #ffb74d; }
-[data-theme="dark"] .badge-paid       { background: rgba(0,146,63,0.15);   color: #69f0ae; }
-[data-theme="dark"] .badge-processing { background: rgba(2,119,189,0.15);  color: #4fc3f7; }
-[data-theme="dark"] .badge-shipped    { background: rgba(106,27,154,0.15); color: #ce93d8; }
-[data-theme="dark"] .badge-delivered  { background: rgba(0,146,63,0.15);   color: #69f0ae; }
-[data-theme="dark"] .badge-cancelled  { background: rgba(198,40,40,0.15);  color: #ef9a9a; }
+[data-theme="dark"] .badge-pending    { background: rgba(212,168,83,0.18);  color: #F5D98A; }
+[data-theme="dark"] .badge-paid       { background: rgba(196,70,42,0.20);   color: #F0A898; }
+[data-theme="dark"] .badge-processing { background: rgba(29,78,216,0.18);   color: #93C5FD; }
+[data-theme="dark"] .badge-shipped    { background: rgba(109,40,217,0.18);  color: #C4B5FD; }
+[data-theme="dark"] .badge-delivered  { background: rgba(13,115,119,0.20);  color: #5ECBCF; }
+[data-theme="dark"] .badge-cancelled  { background: rgba(192,57,43,0.18);   color: #FCA5A5; }
 
 /* ── Orders list ──────────────────────────────────────────────────────────── */
 
@@ -265,7 +265,7 @@
 .od-step.current .od-step-dot {
   background: var(--clr-primary);
   color: #fff;
-  box-shadow: 0 0 0 4px var(--clr-primary-10, rgba(0,146,63,0.15));
+  box-shadow: 0 0 0 4px var(--clr-primary-10, rgba(196,70,42,0.15));
 }
 
 .od-step-label {

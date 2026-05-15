@@ -39,12 +39,16 @@
   background: var(--clr-primary);
   color: white;
   border-color: var(--clr-primary);
+  box-shadow: 0 2px 8px rgba(196,70,42,0.30);
+  letter-spacing: 0.01em;
 }
 
 .btn-primary:hover {
   background: var(--clr-primary-dark);
   border-color: var(--clr-primary-dark);
   color: white;
+  box-shadow: 0 4px 18px rgba(196,70,42,0.40);
+  transform: translateY(-1px);
 }
 
 .btn-primary:focus-visible {
@@ -152,8 +156,9 @@
   background: var(--clr-surface);
   border-radius: var(--r-lg);
   overflow: hidden;
+  border: 1px solid var(--clr-border);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--t-normal), transform var(--t-normal);
+  transition: box-shadow var(--t-normal), transform var(--t-normal), border-color var(--t-normal);
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -161,7 +166,8 @@
 
 .product-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  border-color: rgba(196,70,42,0.20);
+  transform: translateY(-3px);
 }
 
 .product-card-img-wrap {
@@ -267,9 +273,9 @@
 .badge-low     { background: var(--clr-warning);       color: white; }
 
 /* Order status badges */
-.badge-pending    { background: #FFF3E0; color: #E65100; }
+.badge-pending    { background: #FDF7E4; color: #92600A; }
 .badge-paid       { background: var(--clr-primary-light); color: var(--clr-primary-dark); }
-.badge-shipped    { background: #E3F2FD; color: #1565C0; }
+.badge-shipped    { background: #EFF6FF; color: #1D4ED8; }
 .badge-delivered  { background: var(--clr-success-bg); color: var(--clr-success); }
 .badge-cancelled  { background: var(--clr-error-bg);   color: var(--clr-error); }
 .badge-processing { background: #F3E5F5; color: #6A1B9A; }

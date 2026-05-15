@@ -1,44 +1,44 @@
 /* ============================================================
-   SASOORI — Design Tokens
+   SASOORI — Design Tokens  (Warm Spice Market theme)
    All colors, fonts, spacing, shadows live here.
    Never hardcode values anywhere else — always use var().
    ============================================================ */
 
 :root {
   /* ── Brand Colors ─────────────────────────────────────── */
-  --clr-primary:        #00923F;   /* Saroori dark green — CTAs, active */
-  --clr-primary-dark:   #006B2E;   /* Hover / pressed */
-  --clr-primary-light:  #E6F5EC;   /* Tinted bg, selected chips */
-  --clr-secondary:      #84C225;   /* Saroori light green — highlights */
-  --clr-secondary-light:#F2FAE3;   /* Light green tinted bg */
-  --clr-accent:         #F57F17;   /* Warm amber — badges, sale */
-  --clr-accent-light:   #FFF8E1;   /* Accent tinted bg */
+  --clr-primary:        #C4462A;   /* Terracotta — CTAs, active */
+  --clr-primary-dark:   #9E3521;   /* Hover / pressed */
+  --clr-primary-light:  #FAEEE9;   /* Soft blush tint */
+  --clr-secondary:      #D4A853;   /* Turmeric gold — highlights */
+  --clr-secondary-light:#FDF7E4;   /* Gold tinted bg */
+  --clr-accent:         #E8622B;   /* Vibrant orange — badges, sale */
+  --clr-accent-light:   #FEF1EC;   /* Accent tinted bg */
 
-  /* ── Neutrals ─────────────────────────────────────────── */
-  --clr-bg:             #FAFAF7;   /* Page background */
+  /* ── Neutrals — warm ivory ────────────────────────────── */
+  --clr-bg:             #FDFAF6;   /* Warm ivory page background */
   --clr-surface:        #FFFFFF;   /* Cards, modals, inputs */
-  --clr-border:         #E8E3DC;   /* Subtle warm borders */
-  --clr-divider:        #F0EDE8;   /* Section dividers */
+  --clr-border:         #EDE6DB;   /* Warm sand borders */
+  --clr-divider:        #F4EDE3;   /* Section dividers */
 
   /* ── Text ─────────────────────────────────────────────── */
-  --clr-text-h:         #1A1A1A;   /* Headings */
-  --clr-text-b:         #444444;   /* Body */
-  --clr-text-m:         #888888;   /* Muted / placeholder */
+  --clr-text-h:         #1C1008;   /* Deep espresso headings */
+  --clr-text-b:         #3C2A1E;   /* Warm dark brown body */
+  --clr-text-m:         #9A8070;   /* Warm muted */
   --clr-text-inv:       #FFFFFF;   /* Inverse (on dark bg) */
 
   /* ── Feedback ─────────────────────────────────────────── */
-  --clr-success:        #00923F;
-  --clr-success-bg:     #E6F5EC;
-  --clr-error:          #C62828;
-  --clr-error-bg:       #FFEBEE;
-  --clr-warning:        #F57C00;
-  --clr-warning-bg:     #FFF3E0;
-  --clr-info:           #0277BD;
-  --clr-info-bg:        #E1F5FE;
+  --clr-success:        #0D7377;   /* Teal — distinct from brand */
+  --clr-success-bg:     #E6F5F5;
+  --clr-error:          #C0392B;
+  --clr-error-bg:       #FDEDEB;
+  --clr-warning:        #D4A853;
+  --clr-warning-bg:     #FDF7E4;
+  --clr-info:           #2F6FAB;
+  --clr-info-bg:        #EBF3FB;
 
   /* ── Typography ───────────────────────────────────────── */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Fraunces', 'Georgia', serif;
+  --font-body:    'Outfit', system-ui, -apple-system, sans-serif;
 
   --ts-xs:   0.75rem;    /* 12px */
   --ts-sm:   0.875rem;   /* 14px */
@@ -80,12 +80,12 @@
   --r-2xl:  24px;
   --r-full: 9999px;
 
-  /* ── Shadows ──────────────────────────────────────────── */
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-lg: 0 8px 16px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
-  --shadow-focus: 0 0 0 3px rgba(0,146,63,0.25);
+  /* ── Shadows — warm espresso-tinted ──────────────────── */
+  --shadow-xs: 0 1px 2px rgba(28,16,8,0.07);
+  --shadow-sm: 0 2px 6px rgba(28,16,8,0.09), 0 1px 2px rgba(28,16,8,0.05);
+  --shadow-md: 0 4px 12px rgba(28,16,8,0.11), 0 2px 4px rgba(28,16,8,0.06);
+  --shadow-lg: 0 8px 24px rgba(28,16,8,0.14), 0 4px 8px rgba(28,16,8,0.08);
+  --shadow-focus: 0 0 0 3px rgba(196,70,42,0.28);
 
   /* ── Transitions ──────────────────────────────────────── */
   --t-fast:   150ms ease;
@@ -105,86 +105,86 @@
   --sidebar-w: 240px;
 }
 
-/* ── Footer surface tokens (referenced in layout.css) ───── */
+/* ── Footer surface tokens ──────────────────────────────── */
 :root {
-  --clr-footer-bg:       #1A2E1A;
-  --clr-footer-text:     #C8D4C8;
-  --clr-footer-heading:  #F0F4F0;
-  --clr-footer-muted:    #7A9B7D;
-  --clr-footer-border:   #2D4230;
-  --clr-footer-link:     #A8C8AA;
-  --clr-footer-link-hov: #84C225;
+  --clr-footer-bg:       #1C1008;   /* Deep espresso */
+  --clr-footer-text:     #C8B9AE;
+  --clr-footer-heading:  #F0EAE4;
+  --clr-footer-muted:    #8A7060;
+  --clr-footer-border:   #2E1E12;
+  --clr-footer-link:     #BFB0A5;
+  --clr-footer-link-hov: #D4A853;   /* Gold on hover */
 }
 
 /* ── Dark mode: OS-level fallback ───────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --clr-bg:             #0F1A0F;
-    --clr-surface:        #1C2B1C;
-    --clr-border:         #2D4230;
-    --clr-divider:        #243524;
-    --clr-text-h:         #F0F4F0;
-    --clr-text-b:         #C8D4C8;
-    --clr-text-m:         #7A9B7D;
-    --clr-text-inv:       #0F1A0F;
-    --clr-primary-light:  rgba(0,146,63,0.15);
-    --clr-secondary-light:rgba(132,194,37,0.12);
-    --clr-accent-light:   rgba(245,127,23,0.15);
-    --clr-success-bg:     rgba(0,146,63,0.15);
-    --clr-error-bg:       rgba(198,40,40,0.15);
-    --clr-warning-bg:     rgba(245,124,0,0.15);
-    --clr-info-bg:        rgba(2,119,189,0.15);
-    --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 8px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 16px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
+    --clr-bg:             #130A04;
+    --clr-surface:        #1E1008;
+    --clr-border:         #3A2218;
+    --clr-divider:        #2A1810;
+    --clr-text-h:         #F5EDE6;
+    --clr-text-b:         #D4C4B8;
+    --clr-text-m:         #9A8070;
+    --clr-text-inv:       #130A04;
+    --clr-primary-light:  rgba(196,70,42,0.18);
+    --clr-secondary-light:rgba(212,168,83,0.15);
+    --clr-accent-light:   rgba(232,98,43,0.15);
+    --clr-success-bg:     rgba(13,115,119,0.18);
+    --clr-error-bg:       rgba(192,57,43,0.15);
+    --clr-warning-bg:     rgba(212,168,83,0.15);
+    --clr-info-bg:        rgba(47,111,171,0.15);
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.40);
+    --shadow-sm: 0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.40);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.60), 0 2px 4px rgba(0,0,0,0.40);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.70), 0 4px 8px rgba(0,0,0,0.50);
   }
 }
 
 /* ── Dark mode: manual toggle override ─────────────────── */
 [data-theme="dark"] {
-  --clr-bg:             #0F1A0F;
-  --clr-surface:        #1C2B1C;
-  --clr-border:         #2D4230;
-  --clr-divider:        #243524;
-  --clr-text-h:         #F0F4F0;
-  --clr-text-b:         #C8D4C8;
-  --clr-text-m:         #7A9B7D;
-  --clr-text-inv:       #0F1A0F;
-  --clr-primary-light:  rgba(0,146,63,0.15);
-  --clr-secondary-light:rgba(132,194,37,0.12);
-  --clr-accent-light:   rgba(245,127,23,0.15);
-  --clr-success-bg:     rgba(0,146,63,0.15);
-  --clr-error-bg:       rgba(198,40,40,0.15);
-  --clr-warning-bg:     rgba(245,124,0,0.15);
-  --clr-info-bg:        rgba(2,119,189,0.15);
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 8px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 16px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
+  --clr-bg:             #130A04;
+  --clr-surface:        #1E1008;
+  --clr-border:         #3A2218;
+  --clr-divider:        #2A1810;
+  --clr-text-h:         #F5EDE6;
+  --clr-text-b:         #D4C4B8;
+  --clr-text-m:         #9A8070;
+  --clr-text-inv:       #130A04;
+  --clr-primary-light:  rgba(196,70,42,0.18);
+  --clr-secondary-light:rgba(212,168,83,0.15);
+  --clr-accent-light:   rgba(232,98,43,0.15);
+  --clr-success-bg:     rgba(13,115,119,0.18);
+  --clr-error-bg:       rgba(192,57,43,0.15);
+  --clr-warning-bg:     rgba(212,168,83,0.15);
+  --clr-info-bg:        rgba(47,111,171,0.15);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.50), 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.60), 0 2px 4px rgba(0,0,0,0.40);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.70), 0 4px 8px rgba(0,0,0,0.50);
 }
 
 /* ── Light mode: explicit override (manual toggle) ──────── */
 [data-theme="light"] {
-  --clr-bg:             #FAFAF7;
+  --clr-bg:             #FDFAF6;
   --clr-surface:        #FFFFFF;
-  --clr-border:         #E8E3DC;
-  --clr-divider:        #F0EDE8;
-  --clr-text-h:         #1A1A1A;
-  --clr-text-b:         #444444;
-  --clr-text-m:         #888888;
+  --clr-border:         #EDE6DB;
+  --clr-divider:        #F4EDE3;
+  --clr-text-h:         #1C1008;
+  --clr-text-b:         #3C2A1E;
+  --clr-text-m:         #9A8070;
   --clr-text-inv:       #FFFFFF;
-  --clr-primary-light:  #E6F5EC;
-  --clr-secondary-light:#F2FAE3;
-  --clr-accent-light:   #FFF8E1;
-  --clr-success-bg:     #E6F5EC;
-  --clr-error-bg:       #FFEBEE;
-  --clr-warning-bg:     #FFF3E0;
-  --clr-info-bg:        #E1F5FE;
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-lg: 0 8px 16px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+  --clr-primary-light:  #FAEEE9;
+  --clr-secondary-light:#FDF7E4;
+  --clr-accent-light:   #FEF1EC;
+  --clr-success-bg:     #E6F5F5;
+  --clr-error-bg:       #FDEDEB;
+  --clr-warning-bg:     #FDF7E4;
+  --clr-info-bg:        #EBF3FB;
+  --shadow-xs: 0 1px 2px rgba(28,16,8,0.07);
+  --shadow-sm: 0 2px 6px rgba(28,16,8,0.09), 0 1px 2px rgba(28,16,8,0.05);
+  --shadow-md: 0 4px 12px rgba(28,16,8,0.11), 0 2px 4px rgba(28,16,8,0.06);
+  --shadow-lg: 0 8px 24px rgba(28,16,8,0.14), 0 4px 8px rgba(28,16,8,0.08);
 }
 
 /* ── Reduced motion ─────────────────────────────────────── */

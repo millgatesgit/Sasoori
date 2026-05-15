@@ -18,6 +18,7 @@ h1, h2, h3 {
   color: var(--clr-text-h);
   font-weight: var(--fw-bold);
   letter-spacing: -0.02em;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'onum' 1;
 }
 
 h4, h5, h6 {

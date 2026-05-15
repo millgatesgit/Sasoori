@@ -25,21 +25,21 @@
    HERO v2  — Light premium redesign
    ══════════════════════════════════════════════════════════════ */
 .hero-v2 {
-  background: linear-gradient(118deg, #FFFFFF 0%, #F4FAF6 50%, #E8F5EE 100%);
+  background: linear-gradient(130deg, #FDFAF6 0%, #FAF3E8 45%, #FAEEE9 100%);
   position: relative;
   overflow: hidden;
-  padding: var(--sp-20) 0 var(--sp-16);   /* 80px top / 64px bottom */
+  padding: var(--sp-20) 0 var(--sp-16);
   min-height: 520px;
-  border-bottom: 1px solid #D8EEE2;
+  border-bottom: 1px solid #EDE6DB;
 }
 
-/* Soft right-side green bloom — replaces heavy overlay */
+/* Soft right-side terracotta bloom */
 .hero-v2::before {
   content: '';
   position: absolute;
   width: 560px;
   height: 560px;
-  background: radial-gradient(circle, rgba(0,146,63,0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(196,70,42,0.07) 0%, transparent 70%);
   top: -80px;
   right: -80px;
   pointer-events: none;
@@ -69,7 +69,7 @@
   align-items: center;
   gap: var(--sp-2);
   background: var(--clr-primary-light);
-  border: 1px solid rgba(0,146,63,0.2);
+  border: 1px solid rgba(196,70,42,0.20);
   border-radius: var(--r-full);
   padding: 5px 14px;
   font-size: var(--ts-xs);
@@ -117,14 +117,14 @@
   align-items: center;
   gap: 5px;
   background: #fff;
-  border: 1.5px solid #C3E8D1;
+  border: 1.5px solid #E8DDD0;
   border-radius: var(--r-full);
   padding: 6px 14px;
   font-size: var(--ts-xs);
   font-weight: 600;
-  color: var(--clr-primary-dark);
+  color: var(--clr-text-b);
   white-space: nowrap;
-  box-shadow: 0 1px 4px rgba(0,146,63,0.08);
+  box-shadow: 0 1px 4px rgba(28,16,8,0.08);
 }
 
 /* CTA row */
@@ -136,20 +136,21 @@
   margin-bottom: var(--sp-4); /* buttons → trust line: 16px */
 }
 
-/* Primary: green filled */
+/* Primary: terracotta filled */
 .hero-cta-primary {
   background: var(--clr-primary);
   color: #fff;
   border-color: var(--clr-primary);
   font-weight: 700;
-  box-shadow: 0 4px 18px rgba(0,146,63,0.3);
+  box-shadow: 0 4px 18px rgba(196,70,42,0.34);
   transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+  letter-spacing: 0.01em;
 }
 
 .hero-cta-primary:hover {
   background: var(--clr-primary-dark);
   border-color: var(--clr-primary-dark);
-  box-shadow: 0 6px 24px rgba(0,146,63,0.4);
+  box-shadow: 0 6px 28px rgba(196,70,42,0.46);
   transform: translateY(-2px);
 }
 
@@ -190,10 +191,10 @@
   background: #fff;
   border-radius: var(--r-2xl);
   box-shadow:
-    0 2px 8px rgba(0,0,0,0.06),
-    0 12px 40px rgba(0,146,63,0.1);
+    0 2px 8px rgba(28,16,8,0.07),
+    0 12px 40px rgba(196,70,42,0.10);
   overflow: hidden;
-  border: 1px solid #E8F0EB;
+  border: 1px solid #EDE6DB;
 }
 
 .hero-img-main-card img {
@@ -213,9 +214,9 @@
 .hero-img-small-card {
   background: #fff;
   border-radius: var(--r-xl);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(28,16,8,0.08);
   overflow: hidden;
-  border: 1px solid #E8F0EB;
+  border: 1px solid #EDE6DB;
 }
 
 .hero-img-small-card img {
@@ -275,12 +276,12 @@
 
 /* Dark mode */
 [data-theme="dark"] .hero-v2 {
-  background: linear-gradient(118deg, var(--clr-bg) 0%, #162B1E 50%, #1A3324 100%);
+  background: linear-gradient(130deg, var(--clr-bg) 0%, #221008 40%, #2A1410 100%);
   border-bottom-color: var(--clr-border);
 }
 
 [data-theme="dark"] .hero-v2::before {
-  background: radial-gradient(circle, rgba(0,146,63,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(196,70,42,0.15) 0%, transparent 70%);
 }
 
 [data-theme="dark"] .hero-badge,
@@ -299,8 +300,8 @@
    ASSURANCE BAR
    ══════════════════════════════════════════════════════════════ */
 .assurance-bar {
-  background: #2B1A0D;
-  color: #F5E6D3;
+  background: #1C1008;
+  color: #F0EAE4;
   padding: var(--sp-3) 0;
 }
 
@@ -322,7 +323,7 @@
 }
 
 .assurance-item svg {
-  color: #F5A623;
+  color: #D4A853;
   flex-shrink: 0;
 }
 
@@ -377,8 +378,8 @@
   bottom: var(--sp-5);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(43,26,13,0.88);
-  color: #F5E6D3;
+  background: rgba(28,16,8,0.90);
+  color: #F5EDE6;
   font-size: var(--ts-sm);
   font-weight: 600;
   text-align: center;
@@ -563,7 +564,7 @@
    WHY COLD PRESSED (Education)
    ══════════════════════════════════════════════════════════════ */
 .edu-section {
-  background: #FBF7F2;
+  background: #FDF5EE;
 }
 
 .edu-grid {
@@ -574,7 +575,7 @@
 
 .edu-card {
   background: var(--clr-surface);
-  border: 1px solid #E8DDD0;
+  border: 1px solid #EDE6DB;
   border-radius: var(--r-xl);
   padding: var(--sp-6);
   text-align: center;
@@ -620,7 +621,7 @@
 }
 
 .testi-stars {
-  color: #F59E0B;
+  color: #D4A853;
   font-size: var(--ts-base);
   letter-spacing: 2px;
 }
@@ -687,7 +688,7 @@
    Dark mode adjustments
    ══════════════════════════════════════════════════════════════ */
 [data-theme="dark"] .assurance-bar {
-  background: #1A0F06;
+  background: #0A0502;
 }
 
 [data-theme="dark"] .edu-section {
